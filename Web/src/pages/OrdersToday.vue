@@ -1,11 +1,13 @@
 <template>
   <q-page class="flex flex-center">
-    Index
+    Orders Today
   </q-page>
 </template>
 
 <script>
 export default {
-  name: "PageIndex"
+  name: "OrdersTodays"
 };
 </script>
+
+<style></style>

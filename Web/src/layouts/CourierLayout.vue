@@ -6,14 +6,9 @@
 
         <q-toolbar-title>
           <q-icon name="directions_run" />
-          PharmaDash
+          PharmaDash - Courier
         </q-toolbar-title>
       </q-toolbar>
-
-      <q-tabs align="left">
-        <q-route-tab to="/pharmacy" label="Pharmacy Page" />
-        <q-route-tab to="/courier" label="Courier Page" />
-      </q-tabs>
     </q-header>
 
     <q-drawer
@@ -26,7 +21,7 @@
       <q-scroll-area class="fit">
         <q-list v-for="(menuItem, index) in menuList" :key="index">
           <q-item
-            :to="menuItem.route"
+            :to="{ name: menuItem.route }"
             clickable
             :active="menuItem.label === 'Outbox'"
             v-ripple
@@ -52,7 +47,7 @@
       <q-toolbar>
         <q-toolbar-title>
           <q-icon name="directions_run" />
-          PharmaDash
+          PharmaDash - Courier
         </q-toolbar-title>
       </q-toolbar>
     </q-footer>
@@ -68,13 +63,13 @@ export default {
         {
           icon: "inbox",
           label: "Todays Orders",
-          route: "pharmacy/orders_today",
+          route: "courToday",
           separator: true
         },
         {
           icon: "send",
           label: "All Orders",
-          route: "pharmacy/orders_all",
+          route: "courAll",
           separator: false
         }
       ]

@@ -1,11 +1,11 @@
 <template>
   <q-page class="flex flex-center">
-    Index
+    All Orders
   </q-page>
 </template>
 
 <script>
 export default {
-  name: "PageIndex"
+  name: "OrdersAll"
 };
 </script>
