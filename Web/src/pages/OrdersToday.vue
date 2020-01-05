@@ -5,8 +5,24 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
 export default {
-  name: "OrdersTodays"
+  name: "OrdersTodays",
+  data() {
+    return {};
+  },
+  computed: {
+    ...mapGetters("pharmaStore", ["getUser"]),
+    user() {
+      return this.getUser;
+    }
+  },
+  methods: {
+    ...mapActions("pharmaStore", ["setUser"])
+  },
+  created() {
+    this.setUser("Bob Bennet");
+  }
 };
 </script>
 
