@@ -1,6 +1,14 @@
 <template>
   <q-page class="flex flex-start">
-    <order-table />
+    <order-table title="Today's Orders" :today="true" />
+    <div>
+      <q-dialog v-model="addOrder" persistent>
+        <add-order-card />
+      </q-dialog>
+    </div>
+    <q-page-sticky position="bottom-right" :offset="[18, 18]">
+      <q-btn fab icon="add" color="red" @click="addOrder = true" />
+    </q-page-sticky>
   </q-page>
 </template>
 
@@ -9,18 +17,24 @@ import { mapActions, mapGetters } from "vuex";
 export default {
   name: "OrdersTodays",
   components: {
-    "order-table": require("components/cardTables/OrderCardTable.vue").default
+    "order-table": require("components/cardTables/OrderCardTable.vue").default,
+    "add-order-card": require("components/dialogCards/AddOrderCard.vue").default
   },
   data() {
-    return {};
+    return {
+      addOrder: false
+    };
   },
   computed: {
-    ...mapGetters("pharmaStore", ["getUser", "getOrdersToday"])
+    ...mapGetters("pharmaStore", ["getUser", "ordersToday"])
   },
   methods: {
-    ...mapActions("pharmaStore", ["setUser", "getOrdersToday"]),
-    handleGetOrdersToday() {
-      this.getOrdersToday();
+    ...mapActions("pharmaStore", ["setUser", "loadOrdersToday"]),
+    handleLoadOrdersToday() {
+      this.loadOrdersToday();
+    },
+    handleAddClick() {
+      console.log("Add new order button clicked!");
     }
   },
   created() {
@@ -29,11 +43,4 @@ export default {
 };
 </script>
 
-<style>
-/* .container {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-content: flex-start;
-} */
-</style>
+<style></style>

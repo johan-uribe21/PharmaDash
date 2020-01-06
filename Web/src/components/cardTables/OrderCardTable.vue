@@ -3,8 +3,8 @@
     <q-table
       grid
       card-class="bg-primary text-white"
-      title="Today's Orders"
-      :data="getOrdersToday"
+      :title="title"
+      :data="today ? ordersToday : ordersAll"
       :columns="columns"
       row-key="name"
       :filter="filter"
@@ -17,7 +17,7 @@
           dense
           debounce="300"
           v-model="filter"
-          placeholder="Search by Patient Name"
+          placeholder="Search by Any Field"
         >
           <template v-slot:append>
             <q-icon name="search" />
@@ -45,6 +45,8 @@
                   "
                   size="sm"
                   color="primary"
+                  outline
+                  rounded
                 />
               </q-item>
             </q-list>
@@ -59,8 +61,9 @@
 import { mapActions, mapGetters } from "vuex";
 export default {
   name: "OrderCardTable",
+  props: ["title", "today"],
   computed: {
-    ...mapGetters("pharmaStore", ["getUser", "getOrdersToday"])
+    ...mapGetters("pharmaStore", ["ordersAll", "ordersToday"])
   },
   data() {
     return {
@@ -113,7 +116,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions("pharmaStore", ["setUser", "getOrdersToday"]),
+    ...mapActions("pharmaStore", ["loadOrdersToday"]),
     handleGetOrdersToday() {
       this.getOrdersToday();
     },
@@ -126,7 +129,7 @@ export default {
 
 <style scoped>
 .card-container {
-  min-width: 400px;
+  min-width: 450px;
   flex-grow: 1;
 }
 .card-class {

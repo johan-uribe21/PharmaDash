@@ -2,6 +2,6 @@ export function getUser(state) {
   return state.user;
 }
 
-export function getOrdersToday(state) {
+export function ordersToday(state) {
   return state.ordersToday;
 }
