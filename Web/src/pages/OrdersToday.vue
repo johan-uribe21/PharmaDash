@@ -1,6 +1,6 @@
 <template>
-  <q-page class="flex flex-center">
-    Orders Today
+  <q-page class="flex flex-start">
+    <order-table />
   </q-page>
 </template>
 
@@ -8,17 +8,20 @@
 import { mapActions, mapGetters } from "vuex";
 export default {
   name: "OrdersTodays",
+  components: {
+    "order-table": require("components/cardTables/OrderCardTable.vue").default
+  },
   data() {
     return {};
   },
   computed: {
-    ...mapGetters("pharmaStore", ["getUser"]),
-    user() {
-      return this.getUser;
-    }
+    ...mapGetters("pharmaStore", ["getUser", "getOrdersToday"])
   },
   methods: {
-    ...mapActions("pharmaStore", ["setUser"])
+    ...mapActions("pharmaStore", ["setUser", "getOrdersToday"]),
+    handleGetOrdersToday() {
+      this.getOrdersToday();
+    }
   },
   created() {
     this.setUser("Bob Bennet");
@@ -26,4 +29,11 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+/* .container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-content: flex-start;
+} */
+</style>
