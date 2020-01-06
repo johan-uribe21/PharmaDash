@@ -1,10 +1,5 @@
 import axios from "../../utilities/apiUtils";
 
-// axios.defaults.baseURL = "https://dog.ceo";
-// axios.defaults.headers.common["Authorization"] = "Fake Auth Token";
-// axios.defaults.headers.post["Content-Type"] =
-//   "application/x-www-form-urlencoded";
-
 export function setUser({ commit }, payload) {
   commit("setUser", payload);
 }

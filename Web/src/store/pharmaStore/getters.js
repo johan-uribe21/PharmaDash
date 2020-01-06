@@ -5,3 +5,7 @@ export function getUser(state) {
 export function ordersToday(state) {
   return state.ordersToday;
 }
+
+export function ordersAll(state) {
+  return state.ordersAll;
+}
