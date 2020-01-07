@@ -3,7 +3,7 @@ use Mix.Config
 # Configure your database
 config :pharma_dash, PharmaDash.Repo,
   username: "postgres",
-  password: "postgres",
+  password: "",
   database: "pharma_dash_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
@@ -16,3 +16,4 @@ config :pharma_dash, PharmaDashWeb.Endpoint,
 
 # Print only warnings and errors during test
 config :logger, level: :warn
+config :bcrypt_elixir, :log_rounds, 4

@@ -3,7 +3,7 @@ use Mix.Config
 # Configure your database
 config :pharma_dash, PharmaDash.Repo,
   username: "postgres",
-  password: "postgres",
+  password: "",
   database: "pharma_dash_dev",
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true,
