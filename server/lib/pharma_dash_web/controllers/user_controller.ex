@@ -4,7 +4,7 @@ defmodule PharmaDashWeb.UserController do
   alias PharmaDash.Auth
   alias PharmaDash.Auth.User
 
-  action_fallback PharmaDashWeb.FallbackController
+  action_fallback(PharmaDashWeb.FallbackController)
 
   def index(conn, _params) do
     users = Auth.list_users()
@@ -38,6 +38,22 @@ defmodule PharmaDashWeb.UserController do
 
     with {:ok, %User{}} <- Auth.delete_user(user) do
       send_resp(conn, :no_content, "")
+    end
+  end
+
+  def sign_in(conn, %{"email" => email, "password" => password}) do
+    case PharmaDash.Auth.authenticate_user(email, password) do
+      {:ok, user} ->
+        conn
+        |> put_session(:current_user_id, user.id)
+        |> put_status(:ok)
+        |> render(PharmaDashWeb.UserView, "sign_in.json", user: user)
+
+      {:error, message} ->
+        conn
+        |> delete_session(:current_user_id)
+        |> put_status(:unauthorized)
+        |> render(PharmaDashWeb.ErrorView, "401.json", message: message)
     end
   end
 end
