@@ -18,6 +18,7 @@ defmodule PharmaDashWeb.Router do
   scope "/api", PharmaDashWeb do
     pipe_through([:api, :api_auth])
     resources("/users", UserController, except: [:new, :edit])
+    resources("/patients", PatientController)
   end
 
   defp ensure_authenticated(conn, _opts) do
