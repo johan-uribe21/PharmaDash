@@ -7,7 +7,7 @@ defmodule PharmaDashWeb.Router do
   end
 
   pipeline :api_auth do
-    plug: ensure_authenticated
+    plug(:ensure_authenticated)
   end
 
   scope "/api", PharmaDashWeb do
@@ -25,10 +25,11 @@ defmodule PharmaDashWeb.Router do
 
     if current_user_id do
       conn
-    end
+    else
       conn
       |> put_status(:unauthorized)
       |> render(PharmaDashWeb.ErrorView, "401.json", message: "Unauthenticated user")
       |> halt()
+    end
   end
 end

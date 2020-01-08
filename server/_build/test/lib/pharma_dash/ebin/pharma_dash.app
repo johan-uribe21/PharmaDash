@@ -1,7 +1,7 @@
 {application,pharma_dash,
              [{applications,[kernel,stdlib,elixir,logger,runtime_tools,
                              gettext,jason,bcrypt_elixir,phoenix_pubsub,
-                             postgrex,ecto_sql,plug_cowboy,phoenix,
+                             postgrex,ecto_sql,plug_cowboy,phoenix,corsica,
                              phoenix_ecto]},
               {description,"pharma_dash"},
               {modules,['Elixir.PharmaDash','Elixir.PharmaDash.Application',
