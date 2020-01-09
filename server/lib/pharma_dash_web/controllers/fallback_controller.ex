@@ -13,6 +13,15 @@ defmodule PharmaDashWeb.FallbackController do
     |> render(:"404")
   end
 
+  def call(conn, {:error, %Ecto.Changeset{errors: error_message}}) do
+    # IO.inspect(error_message)
+
+    conn
+    |> put_status(:unprocessable_entity)
+    |> put_view(PharmaDashWeb.ErrorView)
+    |> render(:"422_detail_message", error_message)
+  end
+
   def call(conn, {:error, %Ecto.Changeset{}}) do
     conn
     |> put_status(:unprocessable_entity)

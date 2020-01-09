@@ -17,4 +17,14 @@ defmodule PharmaDashWeb.ErrorView do
   def render("401.json", %{message: message}) do
     %{errors: %{detail: message}}
   end
+
+  def render("422_detail_message.json", %{name: message}) do
+    IO.inspect(message)
+    %{errors: %{detail: elem(message, 0)}}
+  end
 end
+
+# errors: [
+#   name: {"Entity names must be unique",
+#    [constraint: :unique, constraint_name: "pharmacies_name_index"]}
+# ],
