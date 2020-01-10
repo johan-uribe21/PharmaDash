@@ -11,11 +11,13 @@ defmodule PharmaDashWeb.CourierView do
   end
 
   def render("courier.json", %{courier: courier}) do
-    %{id: courier.id,
+    %{
+      id: courier.id,
       name: courier.name,
       street: courier.street,
       city: courier.city,
       stateAbr: courier.stateAbr,
-      zipcode: courier.zipcode}
+      zipcode: courier.zipcode
+    }
   end
 end

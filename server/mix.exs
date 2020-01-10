@@ -19,8 +19,9 @@ defmodule PharmaDash.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
+      # applications: [:timex],
       mod: {PharmaDash.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :timex]
     ]
   end
 
@@ -42,7 +43,8 @@ defmodule PharmaDash.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:bcrypt_elixir, "~> 1.0"},
-      {:corsica, "~> 1.0"}
+      {:corsica, "~> 1.0"},
+      {:timex, "~> 3.6"}
     ]
   end
 

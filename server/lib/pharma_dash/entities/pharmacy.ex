@@ -9,6 +9,8 @@ defmodule PharmaDash.Entities.Pharmacy do
     field(:street, :string)
     field(:zipcode, :string)
     has_many(:couriers, PharmaDash.Deliveries.Courier)
+    has_many(:orders, PharmaDash.Items.Order)
+    belongs_to(:order, PharmaDash.Items.Order)
 
     timestamps()
   end
