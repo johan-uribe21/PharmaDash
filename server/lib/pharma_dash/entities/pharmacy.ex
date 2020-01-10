@@ -8,6 +8,7 @@ defmodule PharmaDash.Entities.Pharmacy do
     field(:stateAbr, :string)
     field(:street, :string)
     field(:zipcode, :string)
+    has_many(:couriers, PharmaDash.Deliveries.Courier)
 
     timestamps()
   end

@@ -21,6 +21,8 @@ defmodule PharmaDashWeb.Router do
     resources("/patients", PatientController)
     resources("/pharmacies", PharmacyController)
     resources("/couriers", CourierController)
+    post("/pharmacies/:id/couriers", PharmacyController, :add_courier)
+    get("/pharmacies/:id/couriers", PharmacyController, :get_couriers)
   end
 
   defp ensure_authenticated(conn, _opts) do
