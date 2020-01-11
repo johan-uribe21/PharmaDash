@@ -7,6 +7,36 @@ defmodule PharmaDashWeb.OrderControllerTest do
   alias PharmaDash.Auth
   alias Plug.Test
 
+  alias PharmaDash.Entities
+  alias PharmaDash.Entities.Pharmacy
+
+  alias PharmaDash.Deliveries
+  alias PharmaDash.Deliveries.Courier
+
+  alias PharmaDash.People
+  alias PharmaDash.People.Patient
+
+  @create_pharmacy_attrs %{
+    name: "some pharmacy name",
+    city: "some city",
+    stateAbr: "some stateAbr",
+    street: "some street",
+    zipcode: "some zipcode"
+  }
+  @create_courier_attrs %{
+    name: "some courier name",
+    city: "some city",
+    stateAbr: "some stateAbr",
+    street: "some street",
+    zipcode: "some zipcode"
+  }
+  @create_patient_attrs %{
+    name: "some patient name",
+    city: "some city",
+    stateAbr: "some stateAbr",
+    street: "some street",
+    zipcode: "some zipcode"
+  }
   @current_user_attrs %{
     email: "some current user email",
     is_active: true,
@@ -19,7 +49,7 @@ defmodule PharmaDashWeb.OrderControllerTest do
     delivered: true,
     pickupDate: ~D[2010-04-17],
     pickupTime: ~T[14:00:00],
-    rxIds: []
+    rxIds: ["RX123"]
   }
   @update_attrs %{
     active: false,
@@ -48,6 +78,21 @@ defmodule PharmaDashWeb.OrderControllerTest do
     current_user
   end
 
+  def fixture(:pharmacy) do
+    {:ok, pharmacy} = Entities.create_pharmacy(@create_pharmacy_attrs)
+    pharmacy
+  end
+
+  def fixture(:courier) do
+    {:ok, courier} = Deliveries.create_courier(@create_courier_attrs)
+    courier
+  end
+
+  def fixture(:patient) do
+    {:ok, patient} = People.create_patient(@create_patient_attrs)
+    patient
+  end
+
   setup %{conn: conn} do
     {:ok, conn: conn} = setup_current_user_session(conn)
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
@@ -60,9 +105,20 @@ defmodule PharmaDashWeb.OrderControllerTest do
     end
   end
 
-  describe "create order" do
-    test "renders order when data is valid", %{conn: conn} do
-      conn = post(conn, Routes.order_path(conn, :create), order: @create_attrs)
+  describe "create order associate with pharmacy, courier, and patient" do
+    setup [:create_pharmacy, :create_courier, :create_patient]
+
+    test "renders order when data is valid", %{
+      conn: conn,
+      pharmacy: %Pharmacy{id: pharmacy_id},
+      courier: %Courier{id: courier_id},
+      patient: %Patient{id: patient_id}
+    } do
+      conn =
+        post(conn, Routes.order_path(conn, :create_order, pharmacy_id, courier_id, patient_id),
+          order: @create_attrs
+        )
+
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
       conn = get(conn, Routes.order_path(conn, :show, id))
@@ -74,12 +130,21 @@ defmodule PharmaDashWeb.OrderControllerTest do
                "delivered" => true,
                "pickupDate" => "2010-04-17",
                "pickupTime" => "14:00:00",
-               "rxIds" => []
+               "rxIds" => ["RX123"]
              } = json_response(conn, 200)["data"]
     end
 
-    test "renders errors when data is invalid", %{conn: conn} do
-      conn = post(conn, Routes.order_path(conn, :create), order: @invalid_attrs)
+    test "renders error when data is invalid", %{
+      conn: conn,
+      pharmacy: %Pharmacy{id: pharmacy_id},
+      courier: %Courier{id: courier_id},
+      patient: %Patient{id: patient_id}
+    } do
+      conn =
+        post(conn, Routes.order_path(conn, :create_order, pharmacy_id, courier_id, patient_id),
+          order: @invalid_attrs
+        )
+
       assert json_response(conn, 422)["errors"] != %{}
     end
   end
@@ -91,7 +156,7 @@ defmodule PharmaDashWeb.OrderControllerTest do
       conn = put(conn, Routes.order_path(conn, :update, order), order: @update_attrs)
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 
-      conn = get(conn, Routes.order_path(conn, :show, id))
+      # conn = get(conn, Routes.order_path(conn, :show, id))
 
       assert %{
                "id" => id,
@@ -110,14 +175,146 @@ defmodule PharmaDashWeb.OrderControllerTest do
     end
   end
 
-  defp create_order(_) do
-    order = fixture(:order)
-    {:ok, order: order}
+  describe "cancel order" do
+    setup [:create_order]
+
+    test "renders order flipped between active true/false", %{
+      conn: conn,
+      order: %Order{id: id}
+    } do
+      conn = patch(conn, Routes.order_path(conn, :cancel_order, id))
+      assert %{"id" => ^id} = json_response(conn, 200)["data"]
+
+      assert %{
+               "id" => id,
+               "active" => false,
+               "deliverable" => true,
+               "delivered" => true,
+               "pickupDate" => "2010-04-17",
+               "pickupTime" => "14:00:00",
+               "rxIds" => ["RX123"],
+               "courier_id" => nil,
+               "patient_id" => nil
+             } = json_response(conn, 200)["data"]
+
+      conn = patch(conn, Routes.order_path(conn, :uncancel_order, id))
+      assert %{"id" => ^id} = json_response(conn, 200)["data"]
+
+      assert %{
+               "id" => id,
+               "active" => true,
+               "deliverable" => true,
+               "delivered" => true,
+               "pickupDate" => "2010-04-17",
+               "pickupTime" => "14:00:00",
+               "rxIds" => ["RX123"],
+               "courier_id" => nil,
+               "patient_id" => nil
+             } = json_response(conn, 200)["data"]
+    end
+  end
+
+  describe "Set order deliverable true/false" do
+    setup [:create_order]
+
+    test "renders order flipped between deliverable and undeliverable", %{
+      conn: conn,
+      order: %Order{id: id}
+    } do
+      conn = patch(conn, Routes.order_path(conn, :set_order_is_not_deliverable, id))
+      assert %{"id" => ^id} = json_response(conn, 200)["data"]
+
+      assert %{
+               "id" => id,
+               "active" => true,
+               "deliverable" => false,
+               "delivered" => true,
+               "pickupDate" => "2010-04-17",
+               "pickupTime" => "14:00:00",
+               "rxIds" => ["RX123"],
+               "courier_id" => nil,
+               "patient_id" => nil
+             } = json_response(conn, 200)["data"]
+
+      conn = patch(conn, Routes.order_path(conn, :set_order_is_deliverable, id))
+      assert %{"id" => ^id} = json_response(conn, 200)["data"]
+
+      assert %{
+               "id" => id,
+               "active" => true,
+               "deliverable" => true,
+               "delivered" => true,
+               "pickupDate" => "2010-04-17",
+               "pickupTime" => "14:00:00",
+               "rxIds" => ["RX123"],
+               "courier_id" => nil,
+               "patient_id" => nil
+             } = json_response(conn, 200)["data"]
+    end
+  end
+
+  describe "Set order delivered true/false" do
+    setup [:create_order]
+
+    test "renders order flipped between delivered true and false", %{
+      conn: conn,
+      order: %Order{id: id}
+    } do
+      conn = patch(conn, Routes.order_path(conn, :set_order_not_delivered, id))
+      assert %{"id" => ^id} = json_response(conn, 200)["data"]
+
+      assert %{
+               "id" => id,
+               "active" => true,
+               "deliverable" => true,
+               "delivered" => false,
+               "pickupDate" => "2010-04-17",
+               "pickupTime" => "14:00:00",
+               "rxIds" => ["RX123"],
+               "courier_id" => nil,
+               "patient_id" => nil
+             } = json_response(conn, 200)["data"]
+
+      conn = patch(conn, Routes.order_path(conn, :set_order_delivered, id))
+      assert %{"id" => ^id} = json_response(conn, 200)["data"]
+
+      assert %{
+               "id" => id,
+               "active" => true,
+               "deliverable" => true,
+               "delivered" => true,
+               "pickupDate" => "2010-04-17",
+               "pickupTime" => "14:00:00",
+               "rxIds" => ["RX123"],
+               "courier_id" => nil,
+               "patient_id" => nil
+             } = json_response(conn, 200)["data"]
+    end
   end
 
   defp setup_current_user_session(conn) do
     current_user = fixture(:current_user)
 
     {:ok, conn: Test.init_test_session(conn, current_user_id: current_user.id)}
+  end
+
+  defp create_order(_) do
+    order = fixture(:order)
+    {:ok, order: order}
+  end
+
+  defp create_pharmacy(_) do
+    pharmacy = fixture(:pharmacy)
+    {:ok, pharmacy: pharmacy}
+  end
+
+  defp create_courier(_) do
+    courier = fixture(:courier)
+    {:ok, courier: courier}
+  end
+
+  defp create_patient(_) do
+    patient = fixture(:patient)
+    {:ok, patient: patient}
   end
 end

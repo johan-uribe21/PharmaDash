@@ -90,8 +90,9 @@ defmodule PharmaDashWeb.UserControllerTest do
              } = json_response(conn, 200)["data"]
     end
 
-    test "renders errors when data is invalid", %{conn: conn} do
-      conn = post(conn, Routes.user_path(conn, :create), user: @invalid_attrs)
+    test "renders errors when data is invalid", %{conn: conn, pharmacy: %Pharmacy{id: id}} do
+      conn = post(conn, Routes.user_path(conn, :create_pharmacy_user, id), user: @invalid_attrs)
+
       assert json_response(conn, 422)["errors"] != %{}
     end
   end

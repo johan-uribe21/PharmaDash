@@ -35,7 +35,6 @@
                         'Elixir.PharmaDashWeb.PharmacyView',
                         'Elixir.PharmaDashWeb.Router',
                         'Elixir.PharmaDashWeb.Router.Helpers',
-                        'Elixir.PharmaDashWeb.TestUtils',
                         'Elixir.PharmaDashWeb.UserController',
                         'Elixir.PharmaDashWeb.UserSocket',
                         'Elixir.PharmaDashWeb.UserView']},

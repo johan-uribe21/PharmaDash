@@ -33,6 +33,15 @@ defmodule PharmaDash.Items.Order do
       :courier_id,
       :pharmacy_id
     ])
-    |> validate_required([:rxIds, :pickupDate, :pickupTime, :active, :delivered, :deliverable])
+    |> validate_required([
+      :rxIds,
+      :pickupDate,
+      :pickupTime,
+      :active,
+      :delivered,
+      :deliverable
+      # :pharmacy_id,
+      # :patient_id
+    ])
   end
 end

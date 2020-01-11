@@ -17,10 +17,10 @@ defmodule PharmaDashWeb.Router do
   scope "/api", PharmaDashWeb do
     pipe_through([:api, :api_auth])
 
-    resources("/users", UserController, except: [:new, :edit, :delete])
+    resources("/users", UserController, only: [:show, :index, :update])
     resources("/couriers", CourierController, except: [:new, :edit, :delete])
     resources("/patients", PatientController, except: [:new, :edit, :delete])
-    resources("/orders", OrderController, except: [:new, :edit, :delete])
+    resources("/orders", OrderController, only: [:show, :index, :update])
     resources("/pharmacies", PharmacyController, except: [:new, :edit, :delete])
   end
 
@@ -56,9 +56,9 @@ defmodule PharmaDashWeb.Router do
     patch("/:order_id/cancel", OrderController, :cancel_order)
     patch("/:order_id/uncancel", OrderController, :uncancel_order)
     patch("/:order_id/delivered", OrderController, :set_order_delivered)
-    patch("/:order_id/undelivered", OrderController, :unset_order_delivered)
+    patch("/:order_id/undelivered", OrderController, :set_order_not_delivered)
     patch("/:order_id/deliverable", OrderController, :set_order_is_deliverable)
-    patch("/:order_id/undeliverable", OrderController, :unset_order_is_deliverable)
+    patch("/:order_id/undeliverable", OrderController, :set_order_is_not_deliverable)
   end
 
   scope "/api/couriers", PharmaDashWeb do

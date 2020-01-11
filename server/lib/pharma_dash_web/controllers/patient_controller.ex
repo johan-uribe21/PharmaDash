@@ -69,10 +69,7 @@ defmodule PharmaDashWeb.PatientController do
       }) do
     full_patient_params = Map.merge(patient_params, %{"pharmacy_id" => pharmacy_id})
 
-    # {:ok, pickup_date} = Timex.parse(order_params["pickupDate"], "{YYYY}-{0M}-{D}")
-
     changeset = Patient.changeset(%Patient{}, full_patient_params)
-    IO.inspect(changeset)
 
     with {:ok, patient} <- People.create_patient(full_patient_params) do
       conn

@@ -118,7 +118,7 @@ defmodule PharmaDashWeb.OrderController do
     end
   end
 
-  def unset_order_delivered(conn, %{"order_id" => order_id}) do
+  def set_order_not_delivered(conn, %{"order_id" => order_id}) do
     order = Items.get_order!(order_id)
 
     with {:ok, order} <- Items.update_order(order, %{delivered: false}) do
@@ -138,7 +138,7 @@ defmodule PharmaDashWeb.OrderController do
     end
   end
 
-  def unset_order_is_deliverable(conn, %{"order_id" => order_id}) do
+  def set_order_is_not_deliverable(conn, %{"order_id" => order_id}) do
     order = Items.get_order!(order_id)
 
     with {:ok, order} <- Items.update_order(order, %{deliverable: false}) do

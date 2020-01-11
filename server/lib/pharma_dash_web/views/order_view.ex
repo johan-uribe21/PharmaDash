@@ -19,7 +19,8 @@ defmodule PharmaDashWeb.OrderView do
       active: order.active,
       delivered: order.delivered,
       deliverable: order.deliverable,
-      courier_id: order.courier_id
+      courier_id: order.courier_id,
+      patient_id: order.patient_id
     }
   end
 end
