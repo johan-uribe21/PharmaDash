@@ -4,7 +4,7 @@
       grid
       card-class="bg-primary text-white"
       :title="title"
-      :data="today ? ordersToday : ordersAll"
+      :data="today ? getOrdersToday : getOrdersAll"
       :columns="columns"
       row-key="name"
       :filter="filter"
@@ -63,7 +63,7 @@ export default {
   name: "OrderCardTable",
   props: ["title", "today"],
   computed: {
-    ...mapGetters("pharmaStore", ["ordersAll", "ordersToday"])
+    ...mapGetters("pharmaStore", ["getOrdersAll", "getOrdersToday"])
   },
   data() {
     return {
@@ -72,27 +72,15 @@ export default {
       columns: [
         {
           name: "orderId",
-          label: "Order Id Num.",
-          field: "orderId",
+          label: "Order Id",
+          field: "id",
           sortable: true,
           style: "width: 500px"
         },
         {
           name: "patientName",
           label: "Patient Name",
-          field: "patientName",
-          sortable: true
-        },
-        {
-          name: "patientAddress1",
-          label: "Patient Address",
-          field: row => row.patientAddress.street,
-          sortable: true
-        },
-        {
-          name: "patientAddress2",
-          field: row =>
-            `${row.patientAddress.city}, ${row.patientAddress.stateAbr} ${row.patientAddress.zipcode}`,
+          field: "patient_id",
           sortable: true
         },
         {
@@ -111,15 +99,24 @@ export default {
           label: "Active",
           field: "active",
           format: val => (val ? "\u2713" : "\u2717")
+        },
+        {
+          name: "delivered",
+          label: "Delivered",
+          field: "delivered",
+          format: val => (val ? "\u2713" : "\u2717")
+        },
+        {
+          name: "deliverable",
+          label: "Deliverable",
+          field: "deliverable",
+          format: val => (val ? "\u2713" : "\u2717")
         }
       ]
     };
   },
   methods: {
-    ...mapActions("pharmaStore", ["loadOrdersToday"]),
-    handleGetOrdersToday() {
-      this.getOrdersToday();
-    },
+    ...mapActions("pharmaStore", ["loadOrderData"]),
     handleCancel(orderId) {
       console.log("Cancel order", orderId);
     }

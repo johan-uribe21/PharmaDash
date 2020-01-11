@@ -2,10 +2,11 @@ export function getUser(state) {
   return state.user;
 }
 
-export function ordersToday(state) {
-  return state.ordersToday;
+export function getOrdersToday(state) {
+  // add filter logic
+  return state.orders;
 }
 
-export function ordersAll(state) {
-  return state.ordersAll;
+export function getOrdersAll(state) {
+  return state.orders;
 }

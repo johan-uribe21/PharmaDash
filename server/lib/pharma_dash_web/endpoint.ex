@@ -46,7 +46,9 @@ defmodule PharmaDashWeb.Endpoint do
 
   plug(Corsica,
     origins: "http://localhost:8080",
-    log: [rejected: :error, invalid: :warn, accepted: :debug]
+    log: [rejected: :error, invalid: :warn, accepted: :debug],
+    allow_headers: ["content-type"],
+    allow_credentials: true
   )
 
   plug(PharmaDashWeb.Router)

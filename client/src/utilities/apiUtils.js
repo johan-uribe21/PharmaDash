@@ -1,6 +1,6 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "https://dog.ceo";
+axios.defaults.baseURL = "http://localhost:4000/";
 axios.defaults.withCredentials = true;
 // axios.defaults.headers.common["Authorization"] = "Fake Auth Token";
 // axios.defaults.headers.post["Content-Type"] =
