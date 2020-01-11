@@ -8,6 +8,12 @@ defmodule PharmaDash.Auth.User do
     field(:password, :string, virtual: true)
     field(:name, :string)
     field(:password_hash, :string)
+    field(:is_pharmacy, :boolean, default: false)
+    field(:is_courier, :boolean, default: false)
+    field(:pharmacy_id, :integer)
+    field(:courier_id, :integer)
+    has_one(:pharmacy, PharmaDash.Entities.Pharmacy)
+    has_one(:courier, PharmaDash.Deliveries.Courier)
 
     timestamps()
   end
@@ -15,7 +21,16 @@ defmodule PharmaDash.Auth.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:email, :is_active, :name, :password])
+    |> cast(attrs, [
+      :email,
+      :is_active,
+      :name,
+      :password,
+      :is_pharmacy,
+      :pharmacy_id,
+      :is_courier,
+      :courier_id
+    ])
     |> validate_required([:email, :is_active, :name, :password])
     |> unique_constraint(:email)
     |> put_password_hash()

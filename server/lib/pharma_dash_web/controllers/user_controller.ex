@@ -56,4 +56,26 @@ defmodule PharmaDashWeb.UserController do
         |> render(PharmaDashWeb.ErrorView, "401.json", message: message)
     end
   end
+
+  def create_pharmacy_user(conn, %{"user" => user_params, "id" => id}) do
+    new_user_params = Map.merge(user_params, %{"pharmacy_id" => id, "is_pharmacy" => true})
+
+    with {:ok, %User{} = user} <- Auth.create_user(new_user_params) do
+      conn
+      |> put_status(:created)
+      |> put_resp_header("location", Routes.user_path(conn, :show, user))
+      |> render("user_pharmacy.json", user: user)
+    end
+  end
+
+  def create_courier_user(conn, %{"user" => user_params, "id" => id}) do
+    new_user_params = Map.merge(user_params, %{"courier_id" => id, "is_courier" => true})
+
+    with {:ok, %User{} = user} <- Auth.create_user(new_user_params) do
+      conn
+      |> put_status(:created)
+      |> put_resp_header("location", Routes.user_path(conn, :show, user))
+      |> render("user_courier.json", user: user)
+    end
+  end
 end

@@ -13,12 +13,14 @@ defmodule PharmaDashWeb.Router do
   scope "/api", PharmaDashWeb do
     pipe_through(:api)
     post("/users/sign_in", UserController, :sign_in)
+    post("/users/pharmacies/:id", UserController, :create_pharmacy_user)
+    post("/users/couriers/:id", UserController, :create_courier_user)
   end
 
   scope "/api", PharmaDashWeb do
     pipe_through([:api, :api_auth])
 
-    resources("/users", UserController, except: [:new, :edit, :delete])
+    resources("/users", UserController, except: [:create, :new, :edit, :delete])
     resources("/couriers", CourierController, except: [:new, :edit, :delete])
     resources("/patients", PatientController, except: [:new, :edit, :delete])
     resources("/orders", OrderController, except: [:new, :edit, :delete])

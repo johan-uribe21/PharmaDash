@@ -14,6 +14,30 @@ defmodule PharmaDashWeb.UserView do
     %{id: user.id, email: user.email, is_active: user.is_active, name: user.name}
   end
 
+  def render("user_pharmacy.json", %{user: user}) do
+    %{
+      data: %{
+        id: user.id,
+        email: user.email,
+        is_active: user.is_active,
+        name: user.name,
+        pharmacy_id: user.pharmacy_id
+      }
+    }
+  end
+
+  def render("user_courier.json", %{user: user}) do
+    %{
+      data: %{
+        id: user.id,
+        email: user.email,
+        is_active: user.is_active,
+        name: user.name,
+        courier_id: user.courier_id
+      }
+    }
+  end
+
   def render("sign_in.json", %{user: user}) do
     %{
       data: %{
