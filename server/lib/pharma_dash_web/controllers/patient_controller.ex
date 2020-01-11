@@ -5,12 +5,16 @@ defmodule PharmaDashWeb.PatientController do
   alias PharmaDash.Repo
   alias PharmaDash.People
   alias PharmaDash.People.Patient
+  alias PharmaDashWeb.PatientView
 
   action_fallback(PharmaDashWeb.FallbackController)
 
   def index(conn, _params) do
     patients = People.list_patients()
-    render(conn, "index.json", patients: patients)
+
+    conn
+    |> put_view(PatientView)
+    |> render("index.json", patients: patients)
   end
 
   def create(conn, %{"patient" => patient_params}) do
@@ -18,20 +22,26 @@ defmodule PharmaDashWeb.PatientController do
       conn
       |> put_status(:created)
       |> put_resp_header("location", Routes.patient_path(conn, :create))
+      |> put_view(PatientView)
       |> render("show.json", patient: patient)
     end
   end
 
   def show(conn, %{"id" => id}) do
     patient = People.get_patient!(id)
-    render(conn, "show.json", patient: patient)
+
+    conn
+    |> put_view(PatientView)
+    |> render("show.json", patient: patient)
   end
 
   def update(conn, %{"id" => id, "patient" => patient_params}) do
     patient = People.get_patient!(id)
 
     with {:ok, %Patient{} = patient} <- People.update_patient(patient, patient_params) do
-      render(conn, "show.json", patient: patient)
+      conn
+      |> put_view(PatientView)
+      |> render("show.json", patient: patient)
     end
   end
 
@@ -49,6 +59,7 @@ defmodule PharmaDashWeb.PatientController do
       |> Repo.all()
 
     conn
+    |> put_view(PatientView)
     |> render("index.json", patients: patients)
   end
 
@@ -67,6 +78,7 @@ defmodule PharmaDashWeb.PatientController do
       conn
       |> put_status(:created)
       |> put_resp_header("location", Routes.patient_path(conn, :show, patient))
+      |> put_view(PatientView)
       |> render("show.json", patient: patient)
     end
   end

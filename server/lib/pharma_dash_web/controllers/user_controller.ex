@@ -3,12 +3,16 @@ defmodule PharmaDashWeb.UserController do
 
   alias PharmaDash.Auth
   alias PharmaDash.Auth.User
+  alias PharmaDashWeb.UserView
 
   action_fallback(PharmaDashWeb.FallbackController)
 
   def index(conn, _params) do
     users = Auth.list_users()
-    render(conn, "index.json", users: users)
+
+    conn
+    |> put_view(UserView)
+    |> render("index.json", users: users)
   end
 
   def create(conn, %{"user" => user_params}) do
@@ -16,20 +20,26 @@ defmodule PharmaDashWeb.UserController do
       conn
       |> put_status(:created)
       |> put_resp_header("location", Routes.user_path(conn, :show, user))
+      |> put_view(UserView)
       |> render("show.json", user: user)
     end
   end
 
   def show(conn, %{"id" => id}) do
     user = Auth.get_user!(id)
-    render(conn, "show.json", user: user)
+
+    conn
+    |> put_view(UserView)
+    |> render("show.json", user: user)
   end
 
   def update(conn, %{"id" => id, "user" => user_params}) do
     user = Auth.get_user!(id)
 
     with {:ok, %User{} = user} <- Auth.update_user(user, user_params) do
-      render(conn, "show.json", user: user)
+      conn
+      |> put_view(UserView)
+      |> render("show.json", user: user)
     end
   end
 
@@ -47,7 +57,8 @@ defmodule PharmaDashWeb.UserController do
         conn
         |> put_session(:current_user_id, user.id)
         |> put_status(:ok)
-        |> render(PharmaDashWeb.UserView, "sign_in.json", user: user)
+        |> put_view(UserView)
+        |> render("sign_in.json", user: user)
 
       {:error, message} ->
         conn
@@ -64,6 +75,7 @@ defmodule PharmaDashWeb.UserController do
       conn
       |> put_status(:created)
       |> put_resp_header("location", Routes.user_path(conn, :show, user))
+      |> put_view(UserView)
       |> render("user_pharmacy.json", user: user)
     end
   end
@@ -75,6 +87,7 @@ defmodule PharmaDashWeb.UserController do
       conn
       |> put_status(:created)
       |> put_resp_header("location", Routes.user_path(conn, :show, user))
+      |> put_view(UserView)
       |> render("user_courier.json", user: user)
     end
   end

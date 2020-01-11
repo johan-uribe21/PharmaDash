@@ -6,12 +6,16 @@ defmodule PharmaDashWeb.OrderController do
 
   alias PharmaDash.Items
   alias PharmaDash.Items.Order
+  alias PharmaDashWeb.OrderView
 
   action_fallback(PharmaDashWeb.FallbackController)
 
   def index(conn, _params) do
     orders = Items.list_orders()
-    render(conn, "index.json", orders: orders)
+
+    conn
+    |> put_view(OrderView)
+    |> render("index.json", orders: orders)
   end
 
   def create(conn, %{"order" => order_params}) do
@@ -19,20 +23,26 @@ defmodule PharmaDashWeb.OrderController do
       conn
       |> put_status(:created)
       |> put_resp_header("location", Routes.order_path(conn, :show, order))
+      |> put_view(OrderView)
       |> render("show.json", order: order)
     end
   end
 
   def show(conn, %{"id" => id}) do
     order = Items.get_order!(id)
-    render(conn, "show.json", order: order)
+
+    conn
+    |> put_view(OrderView)
+    |> render("show.json", order: order)
   end
 
   def update(conn, %{"id" => id, "order" => order_params}) do
     order = Items.get_order!(id)
 
     with {:ok, %Order{} = order} <- Items.update_order(order, order_params) do
-      render(conn, "show.json", order: order)
+      conn
+      |> put_view(OrderView)
+      |> render("show.json", order: order)
     end
   end
 
@@ -66,6 +76,7 @@ defmodule PharmaDashWeb.OrderController do
       conn
       |> put_status(:created)
       |> put_resp_header("location", Routes.order_path(conn, :show, order))
+      |> put_view(OrderView)
       |> render("show.json", order: order)
     end
   end
@@ -76,6 +87,7 @@ defmodule PharmaDashWeb.OrderController do
       |> Repo.all()
 
     conn
+    |> put_view(OrderView)
     |> render("index.json", orders: orders)
   end
 
@@ -84,6 +96,7 @@ defmodule PharmaDashWeb.OrderController do
 
     with {:ok, order} <- Items.update_order(order, %{active: false}) do
       conn
+      |> put_view(OrderView)
       |> render("show.json", order: order)
     end
   end
@@ -93,6 +106,7 @@ defmodule PharmaDashWeb.OrderController do
 
     with {:ok, order} <- Items.update_order(order, %{active: true}) do
       conn
+      |> put_view(OrderView)
       |> render("show.json", order: order)
     end
   end
@@ -102,6 +116,7 @@ defmodule PharmaDashWeb.OrderController do
 
     with {:ok, order} <- Items.update_order(order, %{delivered: true}) do
       conn
+      |> put_view(OrderView)
       |> render("show.json", order: order)
     end
   end
@@ -111,6 +126,7 @@ defmodule PharmaDashWeb.OrderController do
 
     with {:ok, order} <- Items.update_order(order, %{delivered: false}) do
       conn
+      |> put_view(OrderView)
       |> render("show.json", order: order)
     end
   end
@@ -120,6 +136,7 @@ defmodule PharmaDashWeb.OrderController do
 
     with {:ok, order} <- Items.update_order(order, %{deliverable: true}) do
       conn
+      |> put_view(OrderView)
       |> render("show.json", order: order)
     end
   end
@@ -129,6 +146,7 @@ defmodule PharmaDashWeb.OrderController do
 
     with {:ok, order} <- Items.update_order(order, %{deliverable: false}) do
       conn
+      |> put_view(OrderView)
       |> render("show.json", order: order)
     end
   end

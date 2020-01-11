@@ -1,19 +1,18 @@
 defmodule PharmaDashWeb.PharmacyController do
   use PharmaDashWeb, :controller
 
-  import Ecto.Query
-
-  alias PharmaDash.Repo
   alias PharmaDash.Entities
   alias PharmaDash.Entities.Pharmacy
-  alias PharmaDash.Deliveries.Courier
-  alias PharmaDashWeb.CourierView
+  alias PharmaDashWeb.PharmacyView
 
   action_fallback(PharmaDashWeb.FallbackController)
 
   def index(conn, _params) do
     pharmacies = Entities.list_pharmacies()
-    render(conn, "index.json", pharmacies: pharmacies)
+
+    conn
+    |> put_view(PharmacyView)
+    |> render("index.json", pharmacies: pharmacies)
   end
 
   def create(conn, %{"pharmacy" => pharmacy_params}) do
@@ -21,20 +20,26 @@ defmodule PharmaDashWeb.PharmacyController do
       conn
       |> put_status(:created)
       |> put_resp_header("location", Routes.pharmacy_path(conn, :show, pharmacy))
+      |> put_view(PharmacyView)
       |> render("show.json", pharmacy: pharmacy)
     end
   end
 
   def show(conn, %{"id" => id}) do
     pharmacy = Entities.get_pharmacy!(id)
-    render(conn, "show.json", pharmacy: pharmacy)
+
+    conn
+    |> put_view(PharmacyView)
+    |> render("show.json", pharmacy: pharmacy)
   end
 
   def update(conn, %{"id" => id, "pharmacy" => pharmacy_params}) do
     pharmacy = Entities.get_pharmacy!(id)
 
     with {:ok, %Pharmacy{} = pharmacy} <- Entities.update_pharmacy(pharmacy, pharmacy_params) do
-      render(conn, "show.json", pharmacy: pharmacy)
+      conn
+      |> put_view(PharmacyView)
+      |> render("show.json", pharmacy: pharmacy)
     end
   end
 

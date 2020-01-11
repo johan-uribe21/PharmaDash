@@ -84,19 +84,6 @@ defmodule PharmaDashWeb.PatientControllerTest do
     end
   end
 
-  describe "delete patient" do
-    setup [:create_patient]
-
-    test "deletes chosen patient", %{conn: conn, patient: patient} do
-      conn = delete(conn, Routes.patient_path(conn, :delete, patient))
-      assert response(conn, 204)
-
-      assert_error_sent 404, fn ->
-        get(conn, Routes.patient_path(conn, :show, patient))
-      end
-    end
-  end
-
   defp create_patient(_) do
     patient = fixture(:patient)
     {:ok, patient: patient}

@@ -1,6 +1,8 @@
 defmodule PharmaDashWeb.PharmacyControllerTest do
   use PharmaDashWeb.ConnCase
 
+  # import PharmaDashWeb.TestUtils
+
   alias PharmaDash.Entities
   alias PharmaDash.Entities.Pharmacy
 
@@ -25,7 +27,14 @@ defmodule PharmaDashWeb.PharmacyControllerTest do
     pharmacy
   end
 
+  # def fixture(:current_user) do
+  #   {:ok, current_user} = Auth.create_user(@current_user_attrs)
+  #   current_user
+  # end
+
   setup %{conn: conn} do
+    # Adds the session to the conn, using the test current_user for authentication
+    {:ok, conn: conn, current_user: current_user} = TestUtils.setup_current_user(conn)
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
   end
 
@@ -103,5 +112,25 @@ defmodule PharmaDashWeb.PharmacyControllerTest do
   defp create_pharmacy(_) do
     pharmacy = fixture(:pharmacy)
     {:ok, pharmacy: pharmacy}
+  end
+
+  @current_user_attrs %{
+    email: "some current user email",
+    is_active: true,
+    password: "some current user password",
+    name: "some current user name"
+  }
+
+  defp setup_current_user(conn) do
+    current_user = fixture(:current_user)
+
+    {:ok,
+     conn: Test.init_test_session(conn, current_user_id: current_user.id),
+     current_user: current_user}
+  end
+
+  def fixture(:current_user) do
+    {:ok, current_user} = Auth.create_user(@current_user_attrs)
+    current_user
   end
 end
