@@ -64,7 +64,8 @@ defmodule PharmaDashWeb.UserController do
         conn
         |> delete_session(:current_user_id)
         |> put_status(:unauthorized)
-        |> render(PharmaDashWeb.ErrorView, "401.json", message: message)
+        |> put_view(PharmaDashWeb.ErrorView)
+        |> render("401.json", message: message)
     end
   end
 

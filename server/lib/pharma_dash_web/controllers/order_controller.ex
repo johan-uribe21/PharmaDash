@@ -69,9 +69,6 @@ defmodule PharmaDashWeb.OrderController do
         "courier_id" => courier_id
       })
 
-    changeset = Order.changeset(%Order{}, full_order_params)
-    IO.inspect(changeset)
-
     with {:ok, order} <- Items.create_order(full_order_params) do
       conn
       |> put_status(:created)

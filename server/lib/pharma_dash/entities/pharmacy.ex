@@ -10,7 +10,7 @@ defmodule PharmaDash.Entities.Pharmacy do
     field(:zipcode, :string)
     has_many(:couriers, PharmaDash.Deliveries.Courier)
     has_many(:orders, PharmaDash.Items.Order)
-    has_many(:patients, PharmaDash.Items.Patient)
+    has_many(:patients, PharmaDash.People.Patient)
     has_many(:users, PharmaDash.Auth.User)
 
     timestamps()

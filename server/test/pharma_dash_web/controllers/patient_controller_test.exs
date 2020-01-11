@@ -4,6 +4,15 @@ defmodule PharmaDashWeb.PatientControllerTest do
   alias PharmaDash.People
   alias PharmaDash.People.Patient
 
+  alias PharmaDash.Auth
+  alias Plug.Test
+
+  @current_user_attrs %{
+    email: "some current user email",
+    is_active: true,
+    password: "some current user password",
+    name: "some current user name"
+  }
   @create_attrs %{
     city: "some city",
     name: "some name",
@@ -25,7 +34,13 @@ defmodule PharmaDashWeb.PatientControllerTest do
     patient
   end
 
+  def fixture(:current_user) do
+    {:ok, current_user} = Auth.create_user(@current_user_attrs)
+    current_user
+  end
+
   setup %{conn: conn} do
+    {:ok, conn: conn} = setup_current_user_session(conn)
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
   end
 
@@ -87,5 +102,11 @@ defmodule PharmaDashWeb.PatientControllerTest do
   defp create_patient(_) do
     patient = fixture(:patient)
     {:ok, patient: patient}
+  end
+
+  defp setup_current_user_session(conn) do
+    current_user = fixture(:current_user)
+
+    {:ok, conn: Test.init_test_session(conn, current_user_id: current_user.id)}
   end
 end

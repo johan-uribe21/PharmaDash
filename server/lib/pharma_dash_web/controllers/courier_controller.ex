@@ -5,7 +5,7 @@ defmodule PharmaDashWeb.CourierController do
 
   alias PharmaDash.Repo
   alias PharmaDash.Entities
-  alias PharmaDash.Entities.Pharmacy
+
   alias PharmaDash.Deliveries
   alias PharmaDash.Deliveries.Courier
   alias PharmaDashWeb.CourierView

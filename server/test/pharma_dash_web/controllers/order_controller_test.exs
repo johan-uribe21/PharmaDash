@@ -4,6 +4,15 @@ defmodule PharmaDashWeb.OrderControllerTest do
   alias PharmaDash.Items
   alias PharmaDash.Items.Order
 
+  alias PharmaDash.Auth
+  alias Plug.Test
+
+  @current_user_attrs %{
+    email: "some current user email",
+    is_active: true,
+    password: "some current user password",
+    name: "some current user name"
+  }
   @create_attrs %{
     active: true,
     deliverable: true,
@@ -20,14 +29,27 @@ defmodule PharmaDashWeb.OrderControllerTest do
     pickupTime: ~T[15:01:01],
     rxIds: []
   }
-  @invalid_attrs %{active: nil, deliverable: nil, delivered: nil, pickupDate: nil, pickupTime: nil, rxIds: nil}
+  @invalid_attrs %{
+    active: nil,
+    deliverable: nil,
+    delivered: nil,
+    pickupDate: nil,
+    pickupTime: nil,
+    rxIds: nil
+  }
 
   def fixture(:order) do
     {:ok, order} = Items.create_order(@create_attrs)
     order
   end
 
+  def fixture(:current_user) do
+    {:ok, current_user} = Auth.create_user(@current_user_attrs)
+    current_user
+  end
+
   setup %{conn: conn} do
+    {:ok, conn: conn} = setup_current_user_session(conn)
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
   end
 
@@ -88,21 +110,14 @@ defmodule PharmaDashWeb.OrderControllerTest do
     end
   end
 
-  describe "delete order" do
-    setup [:create_order]
-
-    test "deletes chosen order", %{conn: conn, order: order} do
-      conn = delete(conn, Routes.order_path(conn, :delete, order))
-      assert response(conn, 204)
-
-      assert_error_sent 404, fn ->
-        get(conn, Routes.order_path(conn, :show, order))
-      end
-    end
-  end
-
   defp create_order(_) do
     order = fixture(:order)
     {:ok, order: order}
+  end
+
+  defp setup_current_user_session(conn) do
+    current_user = fixture(:current_user)
+
+    {:ok, conn: Test.init_test_session(conn, current_user_id: current_user.id)}
   end
 end

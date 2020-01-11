@@ -12,19 +12,24 @@ defmodule PharmaDashWeb.Router do
 
   scope "/api", PharmaDashWeb do
     pipe_through(:api)
-    post("/users/sign_in", UserController, :sign_in)
-    post("/users/pharmacies/:id", UserController, :create_pharmacy_user)
-    post("/users/couriers/:id", UserController, :create_courier_user)
   end
 
   scope "/api", PharmaDashWeb do
     pipe_through([:api, :api_auth])
 
-    resources("/users", UserController, except: [:create, :new, :edit, :delete])
+    resources("/users", UserController, except: [:new, :edit, :delete])
     resources("/couriers", CourierController, except: [:new, :edit, :delete])
     resources("/patients", PatientController, except: [:new, :edit, :delete])
     resources("/orders", OrderController, except: [:new, :edit, :delete])
     resources("/pharmacies", PharmacyController, except: [:new, :edit, :delete])
+  end
+
+  scope "/api/users", PharmaDashWeb do
+    pipe_through([:api])
+
+    post("/sign_in", UserController, :sign_in)
+    post("/pharmacies/:id", UserController, :create_pharmacy_user)
+    post("/couriers/:id", UserController, :create_courier_user)
   end
 
   scope "/api/orders", PharmaDashWeb do
@@ -57,7 +62,6 @@ defmodule PharmaDashWeb.Router do
   end
 
   scope "/api/couriers", PharmaDashWeb do
-    # TODO: Only pharmacy users should have access to their /pharmacies/ endpoints. Create plug verify_pharmacy, add to new pipeline
     pipe_through([:api, :api_auth])
     post("/pharmacies/:pharmacy_id", CourierController, :create_courier)
     get("/pharmacies/:pharmacy_id", CourierController, :get_couriers)

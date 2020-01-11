@@ -4,6 +4,15 @@ defmodule PharmaDashWeb.CourierControllerTest do
   alias PharmaDash.Deliveries
   alias PharmaDash.Deliveries.Courier
 
+  alias PharmaDash.Auth
+  alias Plug.Test
+
+  @current_user_attrs %{
+    email: "some current user email",
+    is_active: true,
+    password: "some current user password",
+    name: "some current user name"
+  }
   @create_attrs %{
     city: "some city",
     name: "some name",
@@ -25,7 +34,13 @@ defmodule PharmaDashWeb.CourierControllerTest do
     courier
   end
 
+  def fixture(:current_user) do
+    {:ok, current_user} = Auth.create_user(@current_user_attrs)
+    current_user
+  end
+
   setup %{conn: conn} do
+    {:ok, conn: conn} = setup_current_user_session(conn)
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
   end
 
@@ -84,21 +99,14 @@ defmodule PharmaDashWeb.CourierControllerTest do
     end
   end
 
-  describe "delete courier" do
-    setup [:create_courier]
-
-    test "deletes chosen courier", %{conn: conn, courier: courier} do
-      conn = delete(conn, Routes.courier_path(conn, :delete, courier))
-      assert response(conn, 204)
-
-      assert_error_sent 404, fn ->
-        get(conn, Routes.courier_path(conn, :show, courier))
-      end
-    end
-  end
-
   defp create_courier(_) do
     courier = fixture(:courier)
     {:ok, courier: courier}
+  end
+
+  defp setup_current_user_session(conn) do
+    current_user = fixture(:current_user)
+
+    {:ok, conn: Test.init_test_session(conn, current_user_id: current_user.id)}
   end
 end

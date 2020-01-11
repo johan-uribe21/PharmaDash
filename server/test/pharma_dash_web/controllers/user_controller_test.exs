@@ -5,7 +5,17 @@ defmodule PharmaDashWeb.UserControllerTest do
   alias PharmaDash.Auth.User
   alias Plug.Test
 
-  @create_attrs %{
+  alias PharmaDash.Entities
+  alias PharmaDash.Entities.Pharmacy
+
+  @create_pharmacy_attrs %{
+    city: "some city",
+    name: "some name",
+    stateAbr: "some stateAbr",
+    street: "some street",
+    zipcode: "some zipcode"
+  }
+  @create_user_attrs %{
     email: "some email",
     is_active: true,
     name: "some name",
@@ -26,8 +36,13 @@ defmodule PharmaDashWeb.UserControllerTest do
   }
 
   def fixture(:user) do
-    {:ok, user} = Auth.create_user(@create_attrs)
+    {:ok, user} = Auth.create_user(@create_user_attrs)
     user
+  end
+
+  def fixture(:pharmacy) do
+    {:ok, pharmacy} = Entities.create_pharmacy(@create_pharmacy_attrs)
+    pharmacy
   end
 
   def fixture(:current_user) do
@@ -56,9 +71,12 @@ defmodule PharmaDashWeb.UserControllerTest do
     end
   end
 
-  describe "create user" do
-    test "renders user when data is valid", %{conn: conn} do
-      conn = post(conn, Routes.user_path(conn, :create), user: @create_attrs)
+  describe "create user associated with a pharmacy" do
+    setup [:create_pharmacy]
+
+    test "renders user when data is valid", %{conn: conn, pharmacy: %Pharmacy{id: id}} do
+      conn =
+        post(conn, Routes.user_path(conn, :create_pharmacy_user, id), user: @create_user_attrs)
 
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
@@ -101,19 +119,6 @@ defmodule PharmaDashWeb.UserControllerTest do
     end
   end
 
-  describe "delete user" do
-    setup [:create_user]
-
-    test "deletes chosen user", %{conn: conn, user: user} do
-      conn = delete(conn, Routes.user_path(conn, :delete, user))
-      assert response(conn, 204)
-
-      assert_error_sent(404, fn ->
-        get(conn, Routes.user_path(conn, :show, user))
-      end)
-    end
-  end
-
   describe "sign_in user" do
     test "renders user when user credentails are good", %{conn: conn, current_user: current_user} do
       conn =
@@ -145,6 +150,11 @@ defmodule PharmaDashWeb.UserControllerTest do
   defp create_user(_) do
     user = fixture(:user)
     {:ok, user: user}
+  end
+
+  defp create_pharmacy(_) do
+    pharmacy = fixture(:pharmacy)
+    {:ok, pharmacy: pharmacy}
   end
 
   defp setup_current_user(conn) do

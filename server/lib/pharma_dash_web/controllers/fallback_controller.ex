@@ -14,8 +14,6 @@ defmodule PharmaDashWeb.FallbackController do
   end
 
   def call(conn, {:error, %Ecto.Changeset{errors: error_message}}) do
-    # IO.inspect(error_message)
-
     conn
     |> put_status(:unprocessable_entity)
     |> put_view(PharmaDashWeb.ErrorView)

@@ -19,7 +19,6 @@ defmodule PharmaDashWeb.ErrorView do
   end
 
   def render("422_detail_message.json", %{name: message}) do
-    IO.inspect(message)
     %{errors: %{detail: elem(message, 0)}}
   end
 end
