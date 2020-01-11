@@ -10,6 +10,7 @@ defmodule PharmaDashWeb.Router do
     plug(:ensure_authenticated)
   end
 
+  # TODO: Add validation to only give users to resources owned by their pharmacy/courier
   scope "/api", PharmaDashWeb do
     pipe_through(:api)
   end
@@ -35,22 +36,13 @@ defmodule PharmaDashWeb.Router do
   scope "/api/orders", PharmaDashWeb do
     pipe_through([:api, :api_auth])
 
-    get(
-      "/couriers/:courier_id",
-      OrderController,
-      :show_courier_orders
-    )
+    get("/couriers/:courier_id", OrderController, :show_courier_orders)
+    get("/pharmacies/:pharmacy_id", OrderController, :list_pharmacy_orders)
 
     post(
       "/pharmacies/:pharmacy_id/couriers/:courier_id/patients/:patient_id",
       OrderController,
       :create_order
-    )
-
-    get(
-      "/pharmacies/:pharmacy_id",
-      OrderController,
-      :list_pharmacy_orders
     )
 
     patch("/:order_id/cancel", OrderController, :cancel_order)
@@ -68,7 +60,6 @@ defmodule PharmaDashWeb.Router do
   end
 
   scope "/api/patients", PharmaDashWeb do
-    # TODO: Only pharmacy users should have access to their /pharmacies/ endpoints. Create plug verify_pharmacy, add to new pipeline
     pipe_through([:api, :api_auth])
 
     post(
