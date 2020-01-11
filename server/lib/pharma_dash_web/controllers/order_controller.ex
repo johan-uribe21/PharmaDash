@@ -96,4 +96,40 @@ defmodule PharmaDashWeb.OrderController do
       |> render("show.json", order: order)
     end
   end
+
+  def set_order_delivered(conn, %{"order_id" => order_id}) do
+    order = Items.get_order!(order_id)
+
+    with {:ok, order} <- Items.update_order(order, %{delivered: true}) do
+      conn
+      |> render("show.json", order: order)
+    end
+  end
+
+  def unset_order_delivered(conn, %{"order_id" => order_id}) do
+    order = Items.get_order!(order_id)
+
+    with {:ok, order} <- Items.update_order(order, %{delivered: false}) do
+      conn
+      |> render("show.json", order: order)
+    end
+  end
+
+  def set_order_is_deliverable(conn, %{"order_id" => order_id}) do
+    order = Items.get_order!(order_id)
+
+    with {:ok, order} <- Items.update_order(order, %{deliverable: true}) do
+      conn
+      |> render("show.json", order: order)
+    end
+  end
+
+  def unset_order_is_deliverable(conn, %{"order_id" => order_id}) do
+    order = Items.get_order!(order_id)
+
+    with {:ok, order} <- Items.update_order(order, %{deliverable: false}) do
+      conn
+      |> render("show.json", order: order)
+    end
+  end
 end

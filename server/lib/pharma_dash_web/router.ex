@@ -50,6 +50,10 @@ defmodule PharmaDashWeb.Router do
 
     patch("/:order_id/cancel", OrderController, :cancel_order)
     patch("/:order_id/uncancel", OrderController, :uncancel_order)
+    patch("/:order_id/delivered", OrderController, :set_order_delivered)
+    patch("/:order_id/undelivered", OrderController, :unset_order_delivered)
+    patch("/:order_id/deliverable", OrderController, :set_order_is_deliverable)
+    patch("/:order_id/undeliverable", OrderController, :unset_order_is_deliverable)
   end
 
   scope "/api/couriers", PharmaDashWeb do
