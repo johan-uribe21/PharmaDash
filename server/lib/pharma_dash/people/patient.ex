@@ -8,8 +8,11 @@ defmodule PharmaDash.People.Patient do
     field(:stateAbr, :string)
     field(:street, :string)
     field(:zipcode, :string)
+    field(:pharmacy_id, :integer)
     has_many(:orders, PharmaDash.Items.Order)
-    belongs_to(:order, PharmaDash.Items.Order)
+    # belongs_to(:pharmacy, PharmaDash.Entities.Pharmacy)
+    # has_one(:pharmacy, PharmaDash.Items.Pharmacy)
+    # belongs_to(:order, PharmaDash.Items.Order)
 
     timestamps()
   end
@@ -17,7 +20,10 @@ defmodule PharmaDash.People.Patient do
   @doc false
   def changeset(patient, attrs) do
     patient
-    |> cast(attrs, [:name, :street, :city, :stateAbr, :zipcode])
+    |> cast(attrs, [:name, :street, :city, :stateAbr, :zipcode, :pharmacy_id])
     |> validate_required([:name, :street, :city, :stateAbr, :zipcode])
+    |> unique_constraint(:name,
+      message: "Names must be unique"
+    )
   end
 end

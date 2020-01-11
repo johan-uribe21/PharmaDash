@@ -17,40 +17,57 @@ defmodule PharmaDashWeb.Router do
 
   scope "/api", PharmaDashWeb do
     pipe_through([:api, :api_auth])
-    resources("/users", UserController, except: [:new, :edit])
-    resources("/patients", PatientController)
-    resources("/couriers", CourierController)
-    resources("/pharmacies", PharmacyController)
+
+    resources("/users", UserController, except: [:new, :edit, :delete])
+    resources("/couriers", CourierController, except: [:new, :edit, :delete])
+    resources("/patients", PatientController, except: [:new, :edit, :delete])
+    resources("/orders", OrderController, except: [:new, :edit, :delete])
+    resources("/pharmacies", PharmacyController, except: [:new, :edit, :delete])
+  end
+
+  scope "/api/orders", PharmaDashWeb do
+    pipe_through([:api, :api_auth])
 
     get(
-      "/:patient_id/orders",
-      OrderController,
-      :show_patient_orders
-    )
-
-    get(
-      "/couriers/:courier_id/orders",
+      "/couriers/:courier_id",
       OrderController,
       :show_courier_orders
     )
-  end
-
-  scope "/api/pharmacies", PharmaDashWeb do
-    # TODO: Only pharmacy users should have access to their /pharmacies/ endpoints
-    pipe_through([:api, :api_auth])
-    post("/:pharmacy_id/couriers", PharmacyController, :create_courier)
-    get("/:pharmacy_id/couriers", PharmacyController, :get_couriers)
 
     post(
-      "/:pharmacy_id/couriers/:courier_id/patients/:patient_id/orders",
+      "/pharmacies/:pharmacy_id/couriers/:courier_id/patients/:patient_id",
       OrderController,
       :create_order
     )
 
     get(
-      "/:pharmacy_id/orders",
+      "/pharmacies/:pharmacy_id",
       OrderController,
-      :show_courier_orders
+      :list_pharmacy_orders
+    )
+  end
+
+  scope "/api/couriers", PharmaDashWeb do
+    # TODO: Only pharmacy users should have access to their /pharmacies/ endpoints. Create plug verify_pharmacy, add to new pipeline
+    pipe_through([:api, :api_auth])
+    post("/pharmacies/:pharmacy_id", CourierController, :create_courier)
+    get("/pharmacies/:pharmacy_id", CourierController, :get_couriers)
+  end
+
+  scope "/api/patients", PharmaDashWeb do
+    # TODO: Only pharmacy users should have access to their /pharmacies/ endpoints. Create plug verify_pharmacy, add to new pipeline
+    pipe_through([:api, :api_auth])
+
+    post(
+      "/pharmacies/:pharmacy_id",
+      PatientController,
+      :create_patient_with_pharmacy
+    )
+
+    get(
+      "/pharmacies/:pharmacy_id",
+      PatientController,
+      :list_pharmacy_patients
     )
   end
 

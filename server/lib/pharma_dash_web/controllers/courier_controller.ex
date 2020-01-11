@@ -1,10 +1,15 @@
 defmodule PharmaDashWeb.CourierController do
   use PharmaDashWeb, :controller
 
+  import Ecto.Query
+
+  alias PharmaDash.Repo
+  alias PharmaDash.Entities
+  alias PharmaDash.Entities.Pharmacy
   alias PharmaDash.Deliveries
   alias PharmaDash.Deliveries.Courier
 
-  action_fallback PharmaDashWeb.FallbackController
+  action_fallback(PharmaDashWeb.FallbackController)
 
   def index(conn, _params) do
     couriers = Deliveries.list_couriers()
@@ -39,5 +44,29 @@ defmodule PharmaDashWeb.CourierController do
     with {:ok, %Courier{}} <- Deliveries.delete_courier(courier) do
       send_resp(conn, :no_content, "")
     end
+  end
+
+  def create_courier(conn, %{"courier" => courier_params, "pharmacy_id" => id}) do
+    pharmacy = Entities.get_pharmacy!(id)
+
+    new_courier_changeset =
+      Ecto.build_assoc(pharmacy, :couriers)
+      |> Courier.changeset(courier_params)
+
+    with {:ok, courier} <- Repo.insert(new_courier_changeset) do
+      conn
+      |> put_status(:created)
+      |> put_resp_header("location", Routes.courier_path(conn, :show, courier))
+      |> render("show.json", courier: courier)
+    end
+  end
+
+  def get_couriers(conn, %{"pharmacy_id" => id}) do
+    couriers =
+      from(Courier, where: [pharmacy_id: ^id])
+      |> Repo.all()
+
+    conn
+    |> render("index.json", couriers: couriers)
   end
 end

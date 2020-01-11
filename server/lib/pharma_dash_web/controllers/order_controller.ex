@@ -1,6 +1,9 @@
 defmodule PharmaDashWeb.OrderController do
   use PharmaDashWeb, :controller
 
+  import Ecto.Query
+  alias PharmaDash.Repo
+
   alias PharmaDash.Items
   alias PharmaDash.Items.Order
   use Timex
@@ -65,16 +68,17 @@ defmodule PharmaDashWeb.OrderController do
     with {:ok, order} <- Items.create_order(full_order_params) do
       conn
       |> put_status(:created)
+      |> put_resp_header("location", Routes.order_path(conn, :show, order))
       |> render("show.json", order: order)
     end
   end
 
-  def get_orders(conn, %{"id" => id}) do
-    # couriers =
-    #   from(Courier, where: [pharmacy_id: ^id])
-    #   |> Repo.all()
+  def list_pharmacy_orders(conn, %{"pharmacy_id" => pharmacy_id}) do
+    orders =
+      from(Order, where: [pharmacy_id: ^pharmacy_id])
+      |> Repo.all()
 
-    # conn
-    # |> render(CourierView, "index.json", couriers: couriers)
+    conn
+    |> render("index.json", orders: orders)
   end
 end

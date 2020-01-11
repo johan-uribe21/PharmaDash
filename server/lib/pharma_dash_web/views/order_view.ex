@@ -11,12 +11,15 @@ defmodule PharmaDashWeb.OrderView do
   end
 
   def render("order.json", %{order: order}) do
-    %{id: order.id,
+    %{
+      id: order.id,
       rxIds: order.rxIds,
       pickupDate: order.pickupDate,
       pickupTime: order.pickupTime,
       active: order.active,
       delivered: order.delivered,
-      deliverable: order.deliverable}
+      deliverable: order.deliverable,
+      courier_id: order.courier_id
+    }
   end
 end
