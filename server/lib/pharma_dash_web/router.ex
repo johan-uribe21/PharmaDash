@@ -47,6 +47,9 @@ defmodule PharmaDashWeb.Router do
       OrderController,
       :list_pharmacy_orders
     )
+
+    patch("/:order_id/cancel", OrderController, :cancel_order)
+    patch("/:order_id/uncancel", OrderController, :uncancel_order)
   end
 
   scope "/api/couriers", PharmaDashWeb do

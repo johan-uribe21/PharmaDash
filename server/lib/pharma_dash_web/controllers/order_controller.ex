@@ -6,7 +6,6 @@ defmodule PharmaDashWeb.OrderController do
 
   alias PharmaDash.Items
   alias PharmaDash.Items.Order
-  use Timex
 
   action_fallback(PharmaDashWeb.FallbackController)
 
@@ -60,8 +59,6 @@ defmodule PharmaDashWeb.OrderController do
         "courier_id" => courier_id
       })
 
-    # {:ok, pickup_date} = Timex.parse(order_params["pickupDate"], "{YYYY}-{0M}-{D}")
-
     changeset = Order.changeset(%Order{}, full_order_params)
     IO.inspect(changeset)
 
@@ -80,5 +77,23 @@ defmodule PharmaDashWeb.OrderController do
 
     conn
     |> render("index.json", orders: orders)
+  end
+
+  def cancel_order(conn, %{"order_id" => order_id}) do
+    order = Items.get_order!(order_id)
+
+    with {:ok, order} <- Items.update_order(order, %{active: false}) do
+      conn
+      |> render("show.json", order: order)
+    end
+  end
+
+  def uncancel_order(conn, %{"order_id" => order_id}) do
+    order = Items.get_order!(order_id)
+
+    with {:ok, order} <- Items.update_order(order, %{active: true}) do
+      conn
+      |> render("show.json", order: order)
+    end
   end
 end
