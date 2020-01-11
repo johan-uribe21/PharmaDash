@@ -69,8 +69,6 @@ defmodule PharmaDashWeb.PatientController do
       }) do
     full_patient_params = Map.merge(patient_params, %{"pharmacy_id" => pharmacy_id})
 
-    changeset = Patient.changeset(%Patient{}, full_patient_params)
-
     with {:ok, patient} <- People.create_patient(full_patient_params) do
       conn
       |> put_status(:created)
