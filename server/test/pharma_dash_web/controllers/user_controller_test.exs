@@ -82,9 +82,6 @@ defmodule PharmaDashWeb.UserControllerTest do
 
       conn = get(conn, Routes.user_path(conn, :show, id))
 
-      IO.puts("++++++create user test conn+++++++++")
-      IO.inspect(conn)
-
       assert %{
                "id" => id,
                "email" => "some email",
