@@ -30,7 +30,13 @@ export default {
     ...mapGetters("pharmaStore", ["getUser", "getOrdersToday"])
   },
   methods: {
-    ...mapActions("pharmaStore", ["setUser", "loadOrderData", "signIn"]),
+    ...mapActions("pharmaStore", [
+      "setUser",
+      "loadOrderData",
+      "signIn",
+      "createSeedPharmacies",
+      "createSeedCouriers"
+    ]),
     handleLoadOrdersToday() {
       this.loadOrdersToday();
     },
@@ -39,9 +45,11 @@ export default {
     }
   },
   created() {
-    this.setUser("Bob Bennet");
     this.signIn();
-    // this.loadOrderData();
+    this.this.createSeedPharmacies();
+    this.this.createSeedCouriers();
+    this.this.loadAllPharmacies();
+    this.this.loadAllCouriers();
   }
 };
 </script>

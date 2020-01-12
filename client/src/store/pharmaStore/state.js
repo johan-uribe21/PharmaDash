@@ -2,6 +2,9 @@ export default function() {
   return {
     user: "",
     orders: [],
-    currentPharmacy: {}
+    currentPharmacy: {},
+    currentCourier: {},
+    seedPharmacies: [],
+    seedCouriers: []
   };
 }

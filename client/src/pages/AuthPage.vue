@@ -2,13 +2,11 @@
   <div class="column fit items-center justify-center q-mt-lg">
     <h6>Create pharmacy admin user</h6>
     <div class="row justify-center">
-      <q-dialog
-        v-model="createUser"
-        :pharmacy="selectedPharmacy"
-        :courier="selectedCourier"
-        persistent
-      >
-        <create-user-card />
+      <q-dialog v-model="createUser" persistent>
+        <create-user-card
+          :pharmacy="selectedPharmacy"
+          :courier="selectedCourier"
+        />
       </q-dialog>
       <q-btn
         @click="createBetterRx"
@@ -45,7 +43,7 @@
       />
     </div>
     <h6>If already registered</h6>
-    <q-btn @click="logIn" class="q-ma-sm" color="red" label="Log in" />
+    <q-btn @click="handleLogIn" class="q-ma-sm" color="red" label="Log in" />
   </div>
 </template>
 
@@ -61,50 +59,11 @@ export default {
     return {
       createUser: false,
       selectedPharmacy: "",
-      selectedCourier: "",
-      seedPharmacies: {
-        betterRx: {
-          name: "BetterRx",
-          street: "1275 Kinnear Road,",
-          city: "Columbus",
-          stateAbr: "OH",
-          zipcode: "43212"
-        },
-        bestRx: {
-          name: "BestRx",
-          street: "123 Austin St,",
-          city: "Austin",
-          stateAbr: "TX",
-          zipcode: "78702"
-        },
-        drugsRUs: {
-          name: "Drugs R Us",
-          street: "4925 LA Ave,",
-          city: "Los Angeles",
-          stateAbr: "CA",
-          zipcode: "90056"
-        }
-      },
-      seedCouriers: {
-        sameDay: {
-          name: "Same Day Delivery",
-          street: "900 Trenton Lane,",
-          city: "Trenton",
-          stateAbr: "NJ",
-          zipcode: "08536"
-        },
-        previousDay: {
-          name: "Previous Day Delivery",
-          street: "7433 LA Ct,",
-          city: "Los Angeles",
-          stateAbr: "CA",
-          zipcode: "90056"
-        }
-      }
+      selectedCourier: ""
     };
   },
   methods: {
-    ...mapActions("pharmaStore", ["createPharmacy"]),
+    ...mapActions("pharmaStore", ["createSeedCouriers"]),
     handleCancel(orderId) {
       console.log("Cancel order", orderId);
     },
@@ -113,9 +72,34 @@ export default {
     },
     async createBetterRx() {
       this.selectedPharmacy = "BetterRx";
+      this.selectedCourier = "";
       this.createUser = true;
+    },
+    async createBestRx() {
+      this.selectedPharmacy = "BestRx";
+      this.selectedCourier = "";
+      this.createUser = true;
+    },
+    async createDrugsRUs() {
+      this.selectedPharmacy = "Drugs R Us";
+      this.selectedCourier = "";
+      this.createUser = true;
+    },
+    async createSameDay() {
+      this.selectedPharmacy = "";
+      this.selectedCourier = "Same Day Delivery";
+      this.createUser = true;
+    },
+    async createPreviousDay() {
+      this.selectedPharmacy = "";
+      this.selectedCourier = "Previous Day Delivery";
+      this.createUser = true;
+    },
+    async handleLogIn() {
+      this.createSeedCouriers();
     }
-  }
+  },
+  created() {}
 };
 </script>
 

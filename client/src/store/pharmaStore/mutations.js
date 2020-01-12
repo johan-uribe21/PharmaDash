@@ -9,3 +9,15 @@ export function loadOrderData(state, payload) {
 export function createPharmacy(state, payload) {
   state.currentPharmacy = payload;
 }
+
+export function createCourier(state, payload) {
+  state.currentCourier = payload;
+}
+
+export function createSeedPharmacy(state, payload) {
+  state.seedPharmacies = payload;
+}
+
+export function createSeedCourier(state, payload) {
+  state.seedCouriers = payload;
+}

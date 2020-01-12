@@ -1,74 +1,33 @@
 <template>
   <q-card style="min-width: 350px">
     <q-card-section>
-      <div class="text-h6">Create New User</div>
+      <div class="text-h6">
+        Create new <b>{{ pharmacy || courier }}</b> user
+      </div>
     </q-card-section>
-
     <q-card-section>
       <q-input
-        placeholder="Patient Name"
+        placeholder="Name"
         dense
-        v-model="orderDetails.patientName"
+        v-model="userDetails.name"
         autofocus
         :rules="[val => !!val || 'Field is required']"
         lazy-rules
       />
       <q-input
-        placeholder="Patient Address Line One"
+        placeholder="Email"
         dense
-        v-model="orderDetails.patientAddressLineOne"
+        v-model="userDetails.email"
         :rules="[val => !!val || 'Field is required']"
         lazy-rules
       />
       <q-input
-        placeholder="Patient Address Line Two"
+        placeholder="Password"
         dense
-        v-model="orderDetails.patientAddressLineTwo"
+        v-model="userDetails.password"
         :rules="[val => !!val || 'Field is required']"
         lazy-rules
       />
-      <q-input
-        placeholder="Prescription Ids"
-        dense
-        v-model="orderDetails.rxIds"
-        :rules="[val => !!val || 'Field is required']"
-        lazy-rules
-      />
-      <q-input
-        placeholder="Pickup Date"
-        v-model="orderDetails.pickupDate"
-        mask="date"
-        :rules="['date']"
-      >
-        <template v-slot:append>
-          <q-icon name="event" class="cursor-pointer">
-            <q-popup-proxy
-              ref="qDateProxy"
-              transition-show="scale"
-              transition-hide="scale"
-            >
-              <q-date
-                v-model="orderDetails.pickupDate"
-                @input="() => $refs.qDateProxy.hide()"
-              />
-            </q-popup-proxy>
-          </q-icon>
-        </template>
-      </q-input>
-      <q-input
-        placeholder="Pickup Time"
-        v-model="orderDetails.pickupTime"
-        mask="time"
-        :rules="['time']"
-      >
-        <template v-slot:append>
-          <q-icon name="access_time" class="cursor-pointer">
-            <q-popup-proxy transition-show="scale" transition-hide="scale">
-              <q-time v-model="orderDetails.pickupTime" />
-            </q-popup-proxy>
-          </q-icon>
-        </template>
-      </q-input>
     </q-card-section>
 
     <q-card-actions align="right" class="text-primary">
@@ -80,28 +39,53 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import { seedData } from "../../store/pharmaStore/seedData";
 export default {
+  name: "CreateUserCard",
   props: ["pharmacy", "courier"],
   data() {
     return {
-      orderDetails: {
-        patientName: "",
-        patientAddressLineOne: "",
-        patientAddressLineTwo: "",
-        rxIds: "",
-        pickupDate: "",
-        pickupTime: ""
+      userDetails: {
+        name: "",
+        email: "",
+        password: ""
       }
     };
   },
   computed: {
-    ...mapGetters("pharmaStore", [""])
+    selectedPharmacyParams() {
+      if (pharmacy) {
+        return seedData.seedPharmacies.filter(
+          e => e.pharmacy.name === pharmacy
+        )[0];
+      }
+      return null;
+    },
+    selectedCourierParams() {
+      if (courier) {
+        return seedData.seedCouriers.filter(
+          e => e.courier.name === pharmacy
+        )[0];
+      }
+      return null;
+    }
   },
   methods: {
-    ...mapActions("pharmaStore", ["createPharmacy", "createUser", "signIn"]),
+    ...mapActions("pharmaStore", [
+      "createPharmacy",
+      "createCourier",
+      "createPharmacyUser",
+      "createCourierUser",
+      "signIn"
+    ]),
     async handleSubmit() {
-      const pharmacy = await this.createPharmacy(this.seedPharmacies.betterRx); // Does this return current pharmacy
-      const user = await this.createUser(pharmacy.id);
+      if (pharmacy) {
+        await this.createPharmacy(this.selectedPharmacyParams);
+        await this.createPharmacyUser(userDetails);
+      } else if (courier) {
+        await this.createCourier(this.selectedCourierParams);
+        await this.createCourierUser(userDetails);
+      }
       await this.signIn({ email: user.email });
     }
   }
