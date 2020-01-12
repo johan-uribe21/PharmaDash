@@ -79,7 +79,7 @@ export default {
     ...mapActions("pharmaStore", ["createUser", "signIn"]),
     async handleSubmit() {
       await this.createUser({ user: this.user });
-      // await this.signIn({ email: user.email, password: user.password });
+      await this.signIn({ user: this.user });
       if (pharmacy) {
         console.log(this.selectedPharmacyParams);
         // await this.createPharmacy(this.selectedPharmacyParams);

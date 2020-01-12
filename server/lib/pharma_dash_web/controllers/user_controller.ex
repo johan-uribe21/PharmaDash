@@ -51,7 +51,9 @@ defmodule PharmaDashWeb.UserController do
     end
   end
 
-  def sign_in(conn, %{"email" => email, "password" => password}) do
+  def sign_in(conn, %{"user" => user_params}) do
+    %{"email" => email, "password" => password} = user_params
+
     case PharmaDash.Auth.authenticate_user(email, password) do
       {:ok, user} ->
         conn

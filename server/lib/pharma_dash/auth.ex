@@ -104,6 +104,7 @@ defmodule PharmaDash.Auth do
 
   def authenticate_user(email, password) do
     query = from(u in User, where: u.email == ^email)
+    IO.inspect(query)
 
     query
     |> Repo.one()
