@@ -8,6 +8,9 @@
           :courier="selectedCourier"
         />
       </q-dialog>
+      <q-dialog v-model="loginUser" persistent>
+        <login-card />
+      </q-dialog>
       <q-btn
         @click="createBetterRx"
         class="q-ma-sm"
@@ -43,7 +46,7 @@
       />
     </div>
     <h6>If already registered</h6>
-    <q-btn @click="handleLogIn" class="q-ma-sm" color="red" label="Log in" />
+    <q-btn @click="loginUser = true" color="red" label="Log in" />
   </div>
 </template>
 
@@ -53,11 +56,13 @@ export default {
   name: "AuthPage",
   components: {
     "create-user-card": require("components/dialogCards/CreateUserCard.vue")
-      .default
+      .default,
+    "login-card": require("components/dialogCards/LoginCard.vue").default
   },
   data() {
     return {
       createUser: false,
+      loginUser: false,
       selectedPharmacy: "",
       selectedCourier: ""
     };
@@ -94,9 +99,6 @@ export default {
       this.selectedPharmacy = "";
       this.selectedCourier = "Previous Day Delivery";
       this.createUser = true;
-    },
-    async handleLogIn() {
-      this.createSeedCouriers();
     }
   },
   created() {}

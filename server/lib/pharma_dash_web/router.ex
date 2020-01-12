@@ -11,15 +11,15 @@ defmodule PharmaDashWeb.Router do
     plug(:ensure_authenticated)
   end
 
-  # TODO: Add validation to only give users access to resources owned by their pharmacy/courier
   scope "/api", PharmaDashWeb do
     pipe_through(:api)
   end
 
+  # TODO: Add validation to only give users access to resources owned by their pharmacy/courier
   scope "/api", PharmaDashWeb do
     pipe_through([:api, :api_auth])
 
-    resources("/users", UserController, only: [:show, :index, :update])
+    resources("/users", UserController, only: [:show, :index, :update, :create])
     resources("/couriers", CourierController, except: [:new, :edit, :delete])
     resources("/patients", PatientController, except: [:new, :edit, :delete])
     resources("/orders", OrderController, only: [:show, :index, :update])

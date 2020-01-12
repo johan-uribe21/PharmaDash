@@ -9,22 +9,27 @@
       <q-input
         placeholder="Name"
         dense
-        v-model="userDetails.name"
+        filled
+        v-model="user.name"
         autofocus
         :rules="[val => !!val || 'Field is required']"
         lazy-rules
       />
       <q-input
         placeholder="Email"
+        type="email"
+        filled
         dense
-        v-model="userDetails.email"
+        v-model="user.email"
         :rules="[val => !!val || 'Field is required']"
         lazy-rules
       />
       <q-input
         placeholder="Password"
+        type="password"
+        filled
         dense
-        v-model="userDetails.password"
+        v-model="user.password"
         :rules="[val => !!val || 'Field is required']"
         lazy-rules
       />
@@ -45,7 +50,7 @@ export default {
   props: ["pharmacy", "courier"],
   data() {
     return {
-      userDetails: {
+      user: {
         name: "",
         email: "",
         password: ""
@@ -71,22 +76,16 @@ export default {
     }
   },
   methods: {
-    ...mapActions("pharmaStore", [
-      "createPharmacy",
-      "createCourier",
-      "createPharmacyUser",
-      "createCourierUser",
-      "signIn"
-    ]),
+    ...mapActions("pharmaStore", ["createUser", "signIn"]),
     async handleSubmit() {
+      await this.createUser({ user: this.user });
+      // await this.signIn({ email: user.email, password: user.password });
       if (pharmacy) {
-        await this.createPharmacy(this.selectedPharmacyParams);
-        await this.createPharmacyUser(userDetails);
+        console.log(this.selectedPharmacyParams);
+        // await this.createPharmacy(this.selectedPharmacyParams);
       } else if (courier) {
-        await this.createCourier(this.selectedCourierParams);
-        await this.createCourierUser(userDetails);
+        // await this.createCourier(this.selectedCourierParams);
       }
-      await this.signIn({ email: user.email });
     }
   }
 };

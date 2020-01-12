@@ -26,6 +26,15 @@ export async function signIn({ commit }, value) {
   }
 }
 
+export async function createUser({ commit }, params) {
+  try {
+    const res = await axios.post(`api/users`, params);
+    commit("setUser", res.data.data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 export async function createPharmacyUser({ commit }, params) {
   try {
     const res = await axios.post(
@@ -60,6 +69,15 @@ export async function createPharmacy({ commit }, value) {
 }
 
 export async function createCourier({ commit }, value) {
+  try {
+    const res = await axios.post(`api/couriers`, value);
+    commit("createCourier", res.data.data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function getPharmacies({ commit }) {
   try {
     const res = await axios.post(`api/couriers`, value);
     commit("createCourier", res.data.data);
