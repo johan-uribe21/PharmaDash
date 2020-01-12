@@ -27,8 +27,8 @@ const routes = [
     component: CourierLayout,
     children: [
       { path: "", redirect: "orders_today" },
-      { path: "orders_today", name: "courToday", component: OrdersToday },
-      { path: "orders_all", name: "courAll", component: OrdersAll }
+      { path: "orders_today", name: "courierToday", component: OrdersToday },
+      { path: "orders_all", name: "courierAll", component: OrdersAll }
     ]
   }
 ];

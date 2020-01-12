@@ -5,7 +5,6 @@
       <q-dialog v-model="addOrder" persistent>
         <add-order-card />
       </q-dialog>
-      <q-btn fab icon="menu" color="green" @click="loadOrderData" />
     </div>
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
       <q-btn fab icon="add" color="red" @click="addOrder = true" />
@@ -30,26 +29,13 @@ export default {
     ...mapGetters("pharmaStore", ["getUser", "getOrdersToday"])
   },
   methods: {
-    ...mapActions("pharmaStore", [
-      "setUser",
-      "loadOrderData",
-      "signIn",
-      "createSeedPharmacies",
-      "createSeedCouriers"
-    ]),
-    handleLoadOrdersToday() {
-      this.loadOrdersToday();
-    },
+    ...mapActions("pharmaStore", ["loadOrderData"]),
     handleAddClick() {
       console.log("Add new order button clicked!");
     }
   },
   created() {
-    this.signIn();
-    this.this.createSeedPharmacies();
-    this.this.createSeedCouriers();
-    this.this.loadAllPharmacies();
-    this.this.loadAllCouriers();
+    this.loadOrderData();
   }
 };
 </script>

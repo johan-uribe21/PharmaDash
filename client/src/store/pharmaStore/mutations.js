@@ -27,3 +27,15 @@ export function createSeedCourier(state, payload) {
 export function setDataLoading(state, payload) {
   state.dataLoading = payload;
 }
+
+export function getPharmacies(state, payload) {
+  state.pharmacies = payload;
+}
+
+export function getCouriers(state, payload) {
+  state.couriers = payload;
+}
+
+export function setSelectedOrg(state, payload) {
+  state.selectedOrg = payload;
+}

@@ -14,3 +14,11 @@ export function getOrdersAll(state) {
 export function dataLoading(state) {
   return state.dataLoading;
 }
+
+export function getPharmacies(state) {
+  return state.pharmacies;
+}
+
+export function getCouriers(state) {
+  return state.couriers;
+}

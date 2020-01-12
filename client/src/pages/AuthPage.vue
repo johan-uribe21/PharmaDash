@@ -12,19 +12,19 @@
         <login-card />
       </q-dialog>
       <q-btn
-        @click="createBetterRx"
+        @click="handleCreatePharmacy('BetterRx')"
         class="q-ma-sm"
         color="secondary"
         label="BetterRX"
       />
       <q-btn
-        @click="createBestRx"
+        @click="handleCreatePharmacy('BestRx')"
         class="q-ma-sm"
         color="secondary"
         label="BestRX"
       />
       <q-btn
-        @click="createDrugsRUs"
+        @click="handleCreatePharmacy('Drugs R Us')"
         class="q-ma-sm"
         color="secondary"
         label="Drugs R Us"
@@ -33,13 +33,13 @@
     <h6>Create courier admin user</h6>
     <div class="row justify-center">
       <q-btn
-        @click="createSameDay"
+        @click="handleCreateCourier('Same day Delivery')"
         class="q-ma-sm"
         color="secondary"
         label="Same Day Delivery"
       />
       <q-btn
-        @click="createPreviousDay"
+        @click="handleCreateCourier('Previous Day Delivery')"
         class="q-ma-sm"
         color="secondary"
         label="Previous Day Delivery"
@@ -75,41 +75,48 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("pharmaStore", ["dataLoading"])
+    ...mapGetters("pharmaStore", [
+      "dataLoading",
+      "getPharmacies",
+      "getCouriers"
+    ])
   },
   methods: {
-    ...mapActions("pharmaStore", ["createSeedCouriers"]),
-    handleCancel(orderId) {
-      console.log("Cancel order", orderId);
+    ...mapActions("pharmaStore", [
+      "getOrCreatePharmacies",
+      "getOrCreateCouriers",
+      "setSelectedOrg"
+    ]),
+    getPharmacyId(name) {
+      return this.getPharmacies.filter(e => e.name === name)[0].id;
     },
-    async createSelectedPharmacy(pharmacyParams) {
-      return await this.createPharmacy(pharmacyParams);
+    getCourierId(name) {
+      return this.getCouriers.filter(e => e.name === name)[0].id;
     },
-    async createBetterRx() {
-      this.selectedPharmacy = "BetterRx";
+    handleCreatePharmacy(name) {
+      this.selectedPharmacy = name;
       this.selectedCourier = "";
       this.createUser = true;
+      this.setSelectedOrg({
+        pharmacy: true,
+        name,
+        id: this.getPharmacyId(name)
+      });
     },
-    async createBestRx() {
-      this.selectedPharmacy = "BestRx";
-      this.selectedCourier = "";
-      this.createUser = true;
-    },
-    async createDrugsRUs() {
-      this.selectedPharmacy = "Drugs R Us";
-      this.selectedCourier = "";
-      this.createUser = true;
-    },
-    async createSameDay() {
+    handleCreateCourier(name) {
+      this.selectedCourier = name;
       this.selectedPharmacy = "";
-      this.selectedCourier = "Same Day Delivery";
       this.createUser = true;
-    },
-    async createPreviousDay() {
-      this.selectedPharmacy = "";
-      this.selectedCourier = "Previous Day Delivery";
-      this.createUser = true;
+      this.setSelectedOrg({
+        pharmacy: false,
+        name,
+        id: this.getCourierId(name)
+      });
     }
+  },
+  created() {
+    this.getOrCreatePharmacies();
+    this.getOrCreateCouriers();
   }
 };
 </script>

@@ -5,6 +5,9 @@ export default function() {
     isPharmacyUser: false,
     currentPharmacy: {},
     currentCourier: {},
-    dataLoading: false
+    dataLoading: false,
+    pharmacies: [],
+    couriers: [],
+    selectedOrg: {}
   };
 }

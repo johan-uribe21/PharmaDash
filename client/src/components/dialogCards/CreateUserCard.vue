@@ -39,12 +39,18 @@
       <q-btn flat label="Cancel" v-close-popup />
       <q-btn flat @click="handleSubmit" label="Submit New User" v-close-popup />
     </q-card-actions>
+
+    <q-banner v-if="errorMessage" inline-actions class="text-white bg-red">
+      {{ errorMessage }}
+      <template v-slot:action>
+        <q-btn @click="errorMessage = ''" flat color="white" label="x" />
+      </template>
+    </q-banner>
   </q-card>
 </template>
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import { seedData } from "../../store/pharmaStore/seedData";
 export default {
   name: "CreateUserCard",
   props: ["pharmacy", "courier"],
@@ -54,42 +60,48 @@ export default {
         name: "",
         email: "",
         password: ""
-      }
+      },
+      errorMessage: ""
     };
   },
   computed: {
-    selectedPharmacyParams() {
+    ...mapGetters("pharmaStore", ["getPharmacies", "getCouriers"]),
+    selectedPharmacyId() {
       if (this.pharmacy) {
-        return seedData.seedPharmacies.filter(
-          e => e.pharmacy.name === this.pharmacy
-        )[0];
+        const pharmacy = this.getPharmacies.filter(
+          e => e.name === this.pharmacy
+        );
+        return pharmacy.id;
       }
       return null;
     },
-    selectedCourierParams() {
+    selectedCourierId() {
       if (this.courier) {
-        return seedData.seedCouriers.filter(
-          e => e.courier.name === this.courier
-        )[0];
+        const courier = this.getCouriers.filter(e => e.name === this.courier);
+        return pharmacy.id;
       }
       return null;
     }
   },
   methods: {
     ...mapActions("pharmaStore", [
-      "createUser",
-      "signIn",
-      "createPharmacy",
-      "createCourier"
+      "createPharmacyUser",
+      "createCourierUser",
+      "signIn"
     ]),
     async handleSubmit() {
-      await this.createUser({ user: this.user });
-      await this.signIn({ user: this.user });
+      let success = false;
       if (this.pharmacy) {
-        await this.createPharmacy(this.selectedPharmacyParams);
+        await this.createPharmacyUser({ user: this.user });
+        success = await this.signIn({ user: this.user });
       } else if (this.courier) {
-        await this.createCourier(this.selectedCourierParams);
+        await createCourierUser({ user: this.user });
+        success = await this.signIn({ user: this.user });
       }
+      if (success && this.pharmacy) this.$router.push({ name: "pharmaToday" });
+      else if (success && this.courier)
+        this.$router.push({ name: "courierToday" });
+      else if (!success) this.errorMessage = "Error signing in";
     }
   }
 };

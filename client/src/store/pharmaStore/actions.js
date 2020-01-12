@@ -21,11 +21,13 @@ export async function signIn({ commit }, value) {
   commit("setDataLoading", true);
   try {
     const res = await axios.post(`api/users/sign_in`, value);
-    commit("setUser", res.data.data.user);
+    commit("setUser", res.data.data);
     commit("setDataLoading", false);
+    return true;
   } catch (error) {
     console.error(error);
     commit("setDataLoading", false);
+    return false;
   }
 }
 
@@ -45,7 +47,7 @@ export async function createPharmacyUser({ commit }, params) {
   commit("setDataLoading", true);
   try {
     const res = await axios.post(
-      `api/users/pharmacies/${state.currentPharmacy.pharmacy.id}`,
+      `api/users/pharmacies/${state.selectedOrg.id}`,
       params
     );
     commit("setUser", res.data.data);
@@ -60,7 +62,7 @@ export async function createCourierUser({ commit }, params) {
   commit("setDataLoading", true);
   try {
     const res = await axios.post(
-      `api/users/couriers/${state.currentCourier.courier.id}`,
+      `api/users/couriers/${state.selectedOrg.id}`,
       params
     );
     commit("setUser", res.data.data);
@@ -83,23 +85,11 @@ export async function createPharmacy({ commit }, value) {
   }
 }
 
-export async function createCourier({ commit }, value) {
-  commit("setDataLoading", true);
-  try {
-    const res = await axios.post(`api/couriers`, value);
-    commit("createCourier", res.data.data);
-    commit("setDataLoading", false);
-  } catch (error) {
-    console.error(error);
-    commit("setDataLoading", false);
-  }
-}
-
 export async function getPharmacies({ commit }) {
   commit("setDataLoading", true);
   try {
-    const res = await axios.post(`api/couriers`, value);
-    commit("createCourier", res.data.data);
+    const res = await axios.get(`api/pharmacies`);
+    commit("getPharmacies", res.data.data);
     commit("setDataLoading", false);
   } catch (error) {
     console.error(error);
@@ -107,14 +97,7 @@ export async function getPharmacies({ commit }) {
   }
 }
 
-export async function submitNewOrder({ commit }, newOrder) {
-  commit("setDataLoading", true);
-  console.log("New Order Data:", newOrder);
-  commit("setDataLoading", false);
-}
-
 export async function createSeedPharmacies({ commit }) {
-  commit("setDataLoading", true);
   const axiosArray = [];
   for (const pharmacy of seedData.seedPharmacies) {
     const newPromise = axios.post(`api/pharmacies`, pharmacy);
@@ -125,17 +108,46 @@ export async function createSeedPharmacies({ commit }) {
     .then(
       axios.spread((...responses) => {
         responses.forEach(res => commit("createSeedPharmacy", res.data.data));
-        commit("setDataLoading", false);
       })
     )
     .catch(e => {
-      commit("setDataLoading", false);
       console.error(e);
     });
 }
 
-export async function createSeedCouriers({ commit }) {
+export async function getOrCreatePharmacies({ commit }) {
+  const done = await getPharmacies({ commit });
+  if (done && state.pharmacies.length < 3) {
+    createSeedPharmacies({ commit });
+  }
+}
+
+export async function createCourier({ commit }, value) {
   commit("setDataLoading", true);
+  try {
+    const res = await axios.post(`api/couriers`, value);
+    commit("createCourier", res.data.data);
+    commit("setDataLoading", false);
+    return true;
+  } catch (error) {
+    console.error(error);
+    commit("setDataLoading", false);
+  }
+}
+
+export async function getCouriers({ commit }) {
+  commit("setDataLoading", true);
+  try {
+    const res = await axios.get(`api/couriers`);
+    commit("getCouriers", res.data.data);
+    commit("setDataLoading", false);
+  } catch (error) {
+    console.error(error);
+    commit("setDataLoading", false);
+  }
+}
+
+export async function createSeedCouriers({ commit }) {
   const axiosArray = [];
   for (const courier of seedData.seedCouriers) {
     const newPromise = axios.post(`api/couriers`, courier);
@@ -146,11 +158,26 @@ export async function createSeedCouriers({ commit }) {
     .then(
       axios.spread((...responses) => {
         responses.forEach(res => commit("createSeedCouriers", res.data.data));
-        commit("setDataLoading", false);
       })
     )
     .catch(e => {
-      commit("setDataLoading", false);
       console.error(e);
     });
+}
+
+export async function getOrCreateCouriers({ commit }) {
+  const done = await getCouriers({ commit });
+  if (done && state.couriers.length < 3) {
+    createSeedCouriers({ commit });
+  }
+}
+
+export async function submitNewOrder({ commit }, newOrder) {
+  commit("setDataLoading", true);
+  console.log("New Order Data:", newOrder);
+  commit("setDataLoading", false);
+}
+
+export function setSelectedOrg({ commit }, value) {
+  commit("setSelectedOrg", value);
 }

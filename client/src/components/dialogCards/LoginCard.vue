@@ -30,6 +30,12 @@
       <q-btn flat label="Cancel" v-close-popup />
       <q-btn flat @click="handleSubmit" label="Log In" v-close-popup />
     </q-card-actions>
+    <q-banner v-if="errorMessage" inline-actions class="text-white bg-red">
+      {{ errorMessage }}
+      <template v-slot:action>
+        <q-btn @click="errorMessage = ''" flat color="white" label="x" />
+      </template>
+    </q-banner>
   </q-card>
 </template>
 
@@ -42,13 +48,14 @@ export default {
       user: {
         email: "",
         password: ""
-      }
+      },
+      errorMessage: ""
     };
   },
   methods: {
     ...mapActions("pharmaStore", ["signIn"]),
     async handleSubmit() {
-      await this.signIn({ user: this.user });
+      const success = await this.signIn({ user: this.user });
     }
   }
 };
