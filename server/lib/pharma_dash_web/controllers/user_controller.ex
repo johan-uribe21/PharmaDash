@@ -69,6 +69,12 @@ defmodule PharmaDashWeb.UserController do
     end
   end
 
+  def signout(conn, _params) do
+    conn
+    |> configure_session(drop: true)
+    |> send_resp(:no_content, "")
+  end
+
   def create_pharmacy_user(conn, %{"user" => user_params, "id" => id}) do
     new_user_params = Map.merge(user_params, %{"pharmacy_id" => id, "is_pharmacy" => true})
 

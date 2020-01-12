@@ -4,13 +4,14 @@ defmodule PharmaDashWeb.Router do
   pipeline :api do
     plug(:accepts, ["json"])
     plug(:fetch_session)
+    plug(PharmaDashWeb.Plugs.SetUser)
   end
 
   pipeline :api_auth do
     plug(:ensure_authenticated)
   end
 
-  # TODO: Add validation to only give users to resources owned by their pharmacy/courier
+  # TODO: Add validation to only give users access to resources owned by their pharmacy/courier
   scope "/api", PharmaDashWeb do
     pipe_through(:api)
   end
