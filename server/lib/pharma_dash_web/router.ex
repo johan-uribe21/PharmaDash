@@ -11,22 +11,27 @@ defmodule PharmaDashWeb.Router do
     plug(:ensure_authenticated)
   end
 
+  # This endpoint should only be available to PharmaDash admins.
+  # Will leave publicly available for demo purposes
+  scope "/api", PharmaDashWeb do
+    pipe_through([:api])
+
+    resources("/users", UserController, only: [:show, :index, :update, :create])
+    resources("/pharmacies", PharmacyController, only: [:show, :index, :update, :create])
+    resources("/couriers", CourierController, only: [:show, :index, :update, :create])
+  end
+
   # TODO: Add validation to only give users access to resources owned by their pharmacy/courier
   scope "/api", PharmaDashWeb do
     pipe_through([:api, :api_auth])
-
-    resources("/users", UserController, only: [:show, :index, :update])
-    resources("/couriers", CourierController, except: [:new, :edit, :delete])
-    resources("/patients", PatientController, except: [:new, :edit, :delete])
+    resources("/patients", PatientController, only: [:show, :index, :update, :create])
     resources("/orders", OrderController, only: [:show, :index, :update])
-    resources("/pharmacies", PharmacyController, except: [:new, :edit, :delete])
   end
 
   scope "/api/users", PharmaDashWeb do
     pipe_through([:api])
 
     post("/sign_in", UserController, :sign_in)
-    post("/", UserController, :create)
     post("/pharmacies/:id", UserController, :create_pharmacy_user)
     post("/couriers/:id", UserController, :create_courier_user)
   end

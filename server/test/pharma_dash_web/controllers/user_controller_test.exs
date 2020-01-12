@@ -125,24 +125,31 @@ defmodule PharmaDashWeb.UserControllerTest do
       conn =
         post(
           conn,
-          Routes.user_path(conn, :sign_in, %{
-            email: current_user.email,
-            password: @current_user_attrs.password
-          })
+          Routes.user_path(conn, :sign_in),
+          %{
+            user: %{
+              email: current_user.email,
+              password: @current_user_attrs.password
+            }
+          }
         )
 
       assert json_response(conn, 200)["data"] == %{
-               "user" => %{
-                 "id" => current_user.id,
-                 "email" => current_user.email,
-                 "name" => current_user.name
-               }
+               "id" => current_user.id,
+               "email" => current_user.email,
+               "name" => current_user.name,
+               "is_courier" => false,
+               "is_pharmacy" => false,
+               "pharmacy_id" => nil,
+               "courier_id" => nil
              }
     end
 
     test "renders errors when user credentials are bad", %{conn: conn} do
       conn =
-        post(conn, Routes.user_path(conn, :sign_in, %{email: "nonexistent email", password: ""}))
+        post(conn, Routes.user_path(conn, :sign_in), %{
+          user: %{email: "nonexistent email", password: ""}
+        })
 
       assert json_response(conn, 401)["errors"] == %{"detail" => "Wrong email or password"}
     end
