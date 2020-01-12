@@ -2,13 +2,11 @@ import axios from "../../utilities/apiUtils";
 import { seedData } from "./seedData";
 import state from "./state";
 
-const pharmacy_id = 1;
-
 export function setUser({ commit }, payload) {
   commit("setUser", payload);
 }
 
-export async function loadOrderData({ commit }) {
+export async function loadOrderData({ commit }, pharmacy_id) {
   try {
     const res = await axios.get(`api/orders/pharmacies/${pharmacy_id}`);
     commit("loadOrderData", res.data.data);
@@ -43,33 +41,31 @@ export async function createUser({ commit }, params) {
   }
 }
 
-export async function createPharmacyUser({ commit }, params) {
+export async function createPharmacyUser({ commit }, v) {
   commit("setDataLoading", true);
   try {
-    const res = await axios.post(
-      `api/users/pharmacies/${state.selectedOrg.id}`,
-      params
-    );
+    const res = await axios.post(`api/users/pharmacies/${v.id}`, v.userParams);
     commit("setUser", res.data.data);
     commit("setDataLoading", false);
+    return true;
   } catch (error) {
     console.error(error);
     commit("setDataLoading", false);
+    return false;
   }
 }
 
-export async function createCourierUser({ commit }, params) {
+export async function createCourierUser({ commit }, v) {
   commit("setDataLoading", true);
   try {
-    const res = await axios.post(
-      `api/users/couriers/${state.selectedOrg.id}`,
-      params
-    );
+    const res = await axios.post(`api/users/couriers/${v.id}`, v.userParams);
     commit("setUser", res.data.data);
     commit("setDataLoading", false);
+    return true;
   } catch (error) {
     console.error(error);
     commit("setDataLoading", false);
+    return false;
   }
 }
 

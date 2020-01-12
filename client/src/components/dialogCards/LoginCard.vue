@@ -7,6 +7,7 @@
     </q-card-section>
     <q-card-section>
       <q-input
+        autofocus
         placeholder="Email"
         type="email"
         filled
@@ -28,7 +29,12 @@
 
     <q-card-actions align="right" class="text-primary">
       <q-btn flat label="Cancel" v-close-popup />
-      <q-btn flat @click="handleSubmit" label="Log In" v-close-popup />
+      <q-btn
+        flat
+        @click="handleSubmit"
+        label="Log In"
+        v-close-popup="signInSuccess"
+      />
     </q-card-actions>
     <q-banner v-if="errorMessage" inline-actions class="text-white bg-red">
       {{ errorMessage }}
@@ -49,13 +55,26 @@ export default {
         email: "",
         password: ""
       },
-      errorMessage: ""
+      errorMessage: "",
+      signInSuccess: false
     };
+  },
+  computed: {
+    ...mapGetters("pharmaStore", ["getUser"])
   },
   methods: {
     ...mapActions("pharmaStore", ["signIn"]),
     async handleSubmit() {
       const success = await this.signIn({ user: this.user });
+      if (success && this.getUser.is_pharmacy) {
+        this.$router.push({ name: "pharmaToday" });
+        this.signInSuccess = true;
+      } else if (success && this.getUser.is_courier) {
+        this.$router.push({ name: "courierToday" });
+        this.signInSuccess = true;
+      } else if (!success) {
+        this.errorMessage = "Error with the sign in process. Please try again.";
+      }
     }
   }
 };

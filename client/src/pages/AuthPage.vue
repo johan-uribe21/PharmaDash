@@ -88,10 +88,12 @@ export default {
       "setSelectedOrg"
     ]),
     getPharmacyId(name) {
-      return this.getPharmacies.filter(e => e.name === name)[0].id;
+      const pharmacy = this.getPharmacies.filter(e => e.name === name)[0];
+      return pharmacy ? pharmacy.id : null;
     },
     getCourierId(name) {
-      return this.getCouriers.filter(e => e.name === name)[0].id;
+      const courier = this.getCouriers.filter(e => e.name === name)[0];
+      return courier ? courier.id : 0;
     },
     handleCreatePharmacy(name) {
       this.selectedPharmacy = name;

@@ -22,3 +22,11 @@ export function getPharmacies(state) {
 export function getCouriers(state) {
   return state.couriers;
 }
+
+export function getSelectedOrg(state) {
+  return state.selectedOrg;
+}
+
+export function getOrdersUpToDate(state) {
+  return state.ordersUpToDate;
+}

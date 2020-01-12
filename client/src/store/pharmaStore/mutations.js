@@ -4,6 +4,7 @@ export function setUser(state, payload) {
 
 export function loadOrderData(state, payload) {
   state.orders = [...state.orders, ...payload];
+  state.ordersUpToDate = true;
 }
 
 export function createPharmacy(state, payload) {

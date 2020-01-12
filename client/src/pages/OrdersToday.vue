@@ -26,7 +26,14 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("pharmaStore", ["getUser", "getOrdersToday"])
+    ...mapGetters("pharmaStore", [
+      "getUser",
+      "getOrdersToday",
+      "getOrdersUpToDate"
+    ]),
+    pharmacyId() {
+      return this.getUser.pharmacy_id;
+    }
   },
   methods: {
     ...mapActions("pharmaStore", ["loadOrderData"]),
@@ -35,7 +42,7 @@ export default {
     }
   },
   created() {
-    this.loadOrderData();
+    if (!this.getOrdersUpToDate) this.loadOrderData(this.pharmacyId);
   }
 };
 </script>

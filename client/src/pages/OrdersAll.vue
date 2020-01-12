@@ -29,17 +29,12 @@ export default {
     ...mapGetters("pharmaStore", ["getUser", "getOrdersAll"])
   },
   methods: {
-    ...mapActions("pharmaStore", ["setUser", "loadOrdersToday"]),
-    handleLoadOrdersToday() {
-      this.loadOrdersToday();
-    },
+    ...mapActions("pharmaStore", ["loadOrderData"]),
     handleAddClick() {
       console.log("Add new order button clicked!");
     }
   },
-  created() {
-    this.setUser("Bob Bennet");
-  }
+  created() {}
 };
 </script>
 

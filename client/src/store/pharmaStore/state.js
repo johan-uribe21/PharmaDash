@@ -8,6 +8,7 @@ export default function() {
     dataLoading: false,
     pharmacies: [],
     couriers: [],
-    selectedOrg: {}
+    selectedOrg: {},
+    ordersUpToDate: false
   };
 }

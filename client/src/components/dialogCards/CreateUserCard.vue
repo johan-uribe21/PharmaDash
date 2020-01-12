@@ -37,7 +37,12 @@
 
     <q-card-actions align="right" class="text-primary">
       <q-btn flat label="Cancel" v-close-popup />
-      <q-btn flat @click="handleSubmit" label="Submit New User" v-close-popup />
+      <q-btn
+        flat
+        @click="handleSubmit"
+        label="Submit New User"
+        v-close-popup="createSuccess"
+      />
     </q-card-actions>
 
     <q-banner v-if="errorMessage" inline-actions class="text-white bg-red">
@@ -61,11 +66,16 @@ export default {
         email: "",
         password: ""
       },
-      errorMessage: ""
+      errorMessage: "",
+      createSuccess: false
     };
   },
   computed: {
-    ...mapGetters("pharmaStore", ["getPharmacies", "getCouriers"]),
+    ...mapGetters("pharmaStore", [
+      "getPharmacies",
+      "getCouriers",
+      "getSelectedOrg"
+    ]),
     selectedPharmacyId() {
       if (this.pharmacy) {
         const pharmacy = this.getPharmacies.filter(
@@ -91,17 +101,32 @@ export default {
     ]),
     async handleSubmit() {
       let success = false;
+      let created = false;
       if (this.pharmacy) {
-        await this.createPharmacyUser({ user: this.user });
+        created = await this.createPharmacyUser({
+          userParams: { user: this.user },
+          id: this.getSelectedOrg.id
+        });
         success = await this.signIn({ user: this.user });
+        this.createSuccess = true;
       } else if (this.courier) {
-        await createCourierUser({ user: this.user });
+        created = await createCourierUser({
+          userParams: { user: this.user },
+          id: this.getSelectedOrg.id
+        });
         success = await this.signIn({ user: this.user });
+        this.createSuccess = true;
       }
-      if (success && this.pharmacy) this.$router.push({ name: "pharmaToday" });
-      else if (success && this.courier)
+
+      if (success && created && this.pharmacy) {
+        this.$router.push({ name: "pharmaToday" });
+        this.createSuccess = true;
+      } else if (success && created && this.courier) {
         this.$router.push({ name: "courierToday" });
-      else if (!success) this.errorMessage = "Error signing in";
+        this.createSuccess = true;
+      } else if (!success || !created)
+        this.errorMessage =
+          "Error creating user or signing in. User emails must be unique";
     }
   }
 };
