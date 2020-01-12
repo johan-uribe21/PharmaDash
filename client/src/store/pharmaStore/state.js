@@ -1,11 +1,10 @@
 export default function() {
   return {
-    user: "",
+    user: {},
     orders: [],
     isPharmacyUser: false,
     currentPharmacy: {},
     currentCourier: {},
-    seedPharmacies: [],
-    seedCouriers: []
+    dataLoading: false
   };
 }

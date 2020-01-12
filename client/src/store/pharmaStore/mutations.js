@@ -8,10 +8,12 @@ export function loadOrderData(state, payload) {
 
 export function createPharmacy(state, payload) {
   state.currentPharmacy = payload;
+  state.isPharmacyUser = true;
 }
 
 export function createCourier(state, payload) {
   state.currentCourier = payload;
+  state.isPharmacyUser = false;
 }
 
 export function createSeedPharmacy(state, payload) {
@@ -20,4 +22,8 @@ export function createSeedPharmacy(state, payload) {
 
 export function createSeedCourier(state, payload) {
   state.seedCouriers = payload;
+}
+
+export function setDataLoading(state, payload) {
+  state.dataLoading = payload;
 }

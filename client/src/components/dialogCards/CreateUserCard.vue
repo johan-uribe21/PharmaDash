@@ -59,32 +59,36 @@ export default {
   },
   computed: {
     selectedPharmacyParams() {
-      if (pharmacy) {
+      if (this.pharmacy) {
         return seedData.seedPharmacies.filter(
-          e => e.pharmacy.name === pharmacy
+          e => e.pharmacy.name === this.pharmacy
         )[0];
       }
       return null;
     },
     selectedCourierParams() {
-      if (courier) {
+      if (this.courier) {
         return seedData.seedCouriers.filter(
-          e => e.courier.name === pharmacy
+          e => e.courier.name === this.courier
         )[0];
       }
       return null;
     }
   },
   methods: {
-    ...mapActions("pharmaStore", ["createUser", "signIn"]),
+    ...mapActions("pharmaStore", [
+      "createUser",
+      "signIn",
+      "createPharmacy",
+      "createCourier"
+    ]),
     async handleSubmit() {
       await this.createUser({ user: this.user });
       await this.signIn({ user: this.user });
-      if (pharmacy) {
-        console.log(this.selectedPharmacyParams);
-        // await this.createPharmacy(this.selectedPharmacyParams);
-      } else if (courier) {
-        // await this.createCourier(this.selectedCourierParams);
+      if (this.pharmacy) {
+        await this.createPharmacy(this.selectedPharmacyParams);
+      } else if (this.courier) {
+        await this.createCourier(this.selectedCourierParams);
       }
     }
   }

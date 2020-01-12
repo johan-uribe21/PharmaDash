@@ -47,6 +47,13 @@
     </div>
     <h6>If already registered</h6>
     <q-btn @click="loginUser = true" color="red" label="Log in" />
+    <q-spinner
+      color="primary"
+      size="3em"
+      :thickness="10"
+      class="q-mt-md"
+      v-if="dataLoading"
+    />
   </div>
 </template>
 
@@ -66,6 +73,9 @@ export default {
       selectedPharmacy: "",
       selectedCourier: ""
     };
+  },
+  computed: {
+    ...mapGetters("pharmaStore", ["dataLoading"])
   },
   methods: {
     ...mapActions("pharmaStore", ["createSeedCouriers"]),
@@ -100,8 +110,7 @@ export default {
       this.selectedCourier = "Previous Day Delivery";
       this.createUser = true;
     }
-  },
-  created() {}
+  }
 };
 </script>
 

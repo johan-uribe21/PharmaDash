@@ -10,3 +10,7 @@ export function getOrdersToday(state) {
 export function getOrdersAll(state) {
   return state.orders;
 }
+
+export function dataLoading(state) {
+  return state.dataLoading;
+}
