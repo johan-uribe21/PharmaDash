@@ -59,16 +59,25 @@ export function submitNewOrder(state, payload) {
   state.orders = [...state.orders, payload];
 }
 
-export function cancelOrder(state, payload) {
-  state.orders = state.orders.map(e => {
-    if (e.id === payload.id) {
-      return payload;
-    }
-    return e;
-  });
+export function resetState(state) {
+  state = {
+    user: {},
+    orders: [],
+    isPharmacyUser: false,
+    currentPharmacy: {},
+    currentCourier: {},
+    dataLoading: false,
+    pharmacies: [],
+    couriers: [],
+    selectedOrg: {},
+    ordersUpToDate: false,
+    patients: [],
+    patientsUpToDate: false,
+    couriersUpToDate: false
+  };
 }
 
-export function uncancelOrder(state, payload) {
+export function updateOrder(state, payload) {
   state.orders = state.orders.map(e => {
     if (e.id === payload.id) {
       return payload;

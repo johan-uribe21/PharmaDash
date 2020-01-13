@@ -6,9 +6,18 @@ export function setUser({ commit }, payload) {
   commit("setUser", payload);
 }
 
-export async function loadOrderData({ commit }, pharmacy_id) {
+export async function loadOrderData({ commit }, pharmacyId) {
   try {
-    const res = await axios.get(`api/orders/pharmacies/${pharmacy_id}`);
+    const res = await axios.get(`api/orders/pharmacies/${pharmacyId}`);
+    commit("loadOrderData", res.data.data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function loadOrderDataCourier({ commit }, courierId) {
+  try {
+    const res = await axios.get(`api/orders/couriers/${courierId}`);
     commit("loadOrderData", res.data.data);
   } catch (error) {
     console.error(error);
@@ -236,7 +245,7 @@ export async function cancelOrder({ commit }, orderId) {
   commit("setDataLoading", true);
   try {
     const res = await axios.patch(`api/orders/${orderId}/cancel`);
-    commit("cancelOrder", res.data.data);
+    commit("updateOrder", res.data.data);
     commit("setDataLoading", false);
   } catch (error) {
     console.error(error);
@@ -248,7 +257,64 @@ export async function uncancelOrder({ commit }, orderId) {
   commit("setDataLoading", true);
   try {
     const res = await axios.patch(`api/orders/${orderId}/uncancel`);
-    commit("uncancelOrder", res.data.data);
+    commit("updateOrder", res.data.data);
+    commit("setDataLoading", false);
+  } catch (error) {
+    console.error(error);
+    commit("setDataLoading", false);
+  }
+}
+
+export async function logout({ commit }) {
+  commit("resetState");
+  try {
+    await axios.post(`api/users/sign_out`);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function deliveredOrder({ commit }, orderId) {
+  commit("setDataLoading", true);
+  try {
+    const res = await axios.patch(`api/orders/${orderId}/delivered`);
+    commit("updateOrder", res.data.data);
+    commit("setDataLoading", false);
+  } catch (error) {
+    console.error(error);
+    commit("setDataLoading", false);
+  }
+}
+
+export async function undeliveredOrder({ commit }, orderId) {
+  commit("setDataLoading", true);
+  try {
+    const res = await axios.patch(`api/orders/${orderId}/undelivered`);
+    commit("updateOrder", res.data.data);
+    commit("setDataLoading", false);
+  } catch (error) {
+    console.error(error);
+    commit("setDataLoading", false);
+  }
+}
+
+export async function deliverableOrder({ commit }, orderId) {
+  commit("setDataLoading", true);
+  try {
+    const res = await axios.patch(`api/orders/${orderId}/deliverable`);
+    commit("updateOrder", res.data.data);
+    commit("setDataLoading", false);
+  } catch (error) {
+    console.error(error);
+    commit("setDataLoading", false);
+  }
+}
+
+export async function undeliverableOrder({ commit }, orderId) {
+  commit("setDataLoading", true);
+  try {
+    const res = await axios.patch(`api/orders/${orderId}/undeliverable`);
+    commit("updateOrder", res.data.data);
     commit("setDataLoading", false);
   } catch (error) {
     console.error(error);

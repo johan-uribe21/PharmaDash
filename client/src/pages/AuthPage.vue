@@ -33,7 +33,7 @@
     <h6>Create courier admin user</h6>
     <div class="row justify-center">
       <q-btn
-        @click="handleCreateCourier('Same day Delivery')"
+        @click="handleCreateCourier('Same Day Delivery')"
         class="q-ma-sm"
         color="secondary"
         label="Same Day Delivery"
@@ -93,7 +93,7 @@ export default {
     },
     getCourierId(name) {
       const courier = this.getCouriers.filter(e => e.name === name)[0];
-      return courier ? courier.id : 0;
+      return courier ? courier.id : null;
     },
     handleCreatePharmacy(name) {
       this.selectedPharmacy = name;

@@ -38,7 +38,9 @@
                   <q-item-label>{{ col.value }}</q-item-label>
                 </q-item-section>
                 <q-btn
-                  v-if="col.label === 'Active' && col.value === '\u2713'"
+                  v-if="
+                    !courier && col.label === 'Active' && col.value === '\u2713'
+                  "
                   @click="handleCancel(props.cols[0].value)"
                   :label="'Cancel Order'"
                   size="sm"
@@ -47,9 +49,63 @@
                   rounded
                 />
                 <q-btn
-                  v-if="col.label === 'Active' && col.value === '\u2717'"
+                  v-if="
+                    !courier && col.label === 'Active' && col.value === '\u2717'
+                  "
                   @click="handleUncancel(props.cols[0].value)"
                   :label="'Uncancel Order'"
+                  size="sm"
+                  color="primary"
+                  outline
+                  rounded
+                />
+                <q-btn
+                  v-if="
+                    courier &&
+                      col.label === 'Delivered' &&
+                      col.value === '\u2717'
+                  "
+                  @click="handleDelivered(props.cols[0].value)"
+                  :label="'Set Delivered'"
+                  size="sm"
+                  color="primary"
+                  outline
+                  rounded
+                />
+                <q-btn
+                  v-if="
+                    courier &&
+                      col.label === 'Delivered' &&
+                      col.value === '\u2713'
+                  "
+                  @click="handleNotDelivered(props.cols[0].value)"
+                  :label="'Set Not Delivered'"
+                  size="sm"
+                  color="primary"
+                  outline
+                  rounded
+                />
+                <q-btn
+                  v-if="
+                    courier &&
+                      col.label === 'Deliverable' &&
+                      col.value === '\u2717'
+                  "
+                  @click="handleDeliverable(props.cols[0].value)"
+                  :label="'Set Deliverable'"
+                  size="sm"
+                  color="primary"
+                  outline
+                  rounded
+                />
+                <q-btn
+                  v-if="
+                    courier &&
+                      col.label === 'Deliverable' &&
+                      col.value === '\u2713'
+                  "
+                  @click="handleNotDeliverable(props.cols[0].value)"
+                  :label="'Set Not Deliverable'"
                   size="sm"
                   color="primary"
                   outline
@@ -68,7 +124,7 @@
 import { mapActions, mapGetters } from "vuex";
 export default {
   name: "OrderCardTable",
-  props: ["title", "today"],
+  props: ["title", "today", "courier"],
   computed: {
     ...mapGetters("pharmaStore", ["getOrdersAll", "getOrdersToday"])
   },
@@ -85,9 +141,15 @@ export default {
           style: "width: 500px"
         },
         {
-          name: "patientName",
-          label: "Patient Name",
-          field: "patient_name",
+          name: "patientId",
+          label: "Patient ID",
+          field: "patient_id",
+          sortable: true
+        },
+        {
+          name: "courierId",
+          label: "Courier ID",
+          field: "courier_id",
           sortable: true
         },
         {
@@ -126,13 +188,29 @@ export default {
     ...mapActions("pharmaStore", [
       "loadOrderData",
       "cancelOrder",
-      "uncancelOrder"
+      "uncancelOrder",
+      "deliveredOrder",
+      "undeliveredOrder",
+      "deliverableOrder",
+      "undeliverableOrder"
     ]),
     handleCancel(orderId) {
       this.cancelOrder(orderId);
     },
     handleUncancel(orderId) {
       this.uncancelOrder(orderId);
+    },
+    handleDelivered(orderId) {
+      this.deliveredOrder(orderId);
+    },
+    handleNotDelivered(orderId) {
+      this.undeliveredOrder(orderId);
+    },
+    handleDeliverable(orderId) {
+      this.deliverableOrder(orderId);
+    },
+    handleNotDeliverable(orderId) {
+      this.undeliverableOrder(orderId);
     }
   }
 };
@@ -144,6 +222,6 @@ export default {
   flex-grow: 1;
 }
 .card-class {
-  min-width: 200px;
+  min-width: 250px;
 }
 </style>

@@ -96,6 +96,6 @@ export default {
   flex-grow: 1;
 }
 .card-class {
-  min-width: 200px;
+  min-width: 230px;
 }
 </style>

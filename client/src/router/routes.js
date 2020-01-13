@@ -3,6 +3,8 @@ import AuthLayout from "layouts/AuthLayout";
 import CourierLayout from "layouts/CourierLayout";
 import PharmaOrdersAll from "pages/PharmaOrdersAll";
 import PharmaOrdersToday from "pages/PharmaOrdersToday";
+import CourierOrdersAll from "pages/CourierOrdersAll";
+import CourierOrdersToday from "pages/CourierOrdersToday";
 import PharmaPatients from "pages/PharmaPatients";
 import PharmaCouriers from "pages/PharmaCouriers";
 import Error404 from "pages/Error404";
@@ -46,9 +48,9 @@ const routes = [
       {
         path: "orders_today",
         name: "courierToday",
-        component: PharmaOrdersToday
+        component: CourierOrdersToday
       },
-      { path: "orders_all", name: "courierAll", component: PharmaOrdersAll }
+      { path: "orders_all", name: "courierAll", component: CourierOrdersAll }
     ]
   }
 ];

@@ -110,7 +110,7 @@ export default {
         success = await this.signIn({ user: this.user });
         this.createSuccess = true;
       } else if (this.courier) {
-        created = await createCourierUser({
+        created = await this.createCourierUser({
           userParams: { user: this.user },
           id: this.getSelectedOrg.id
         });

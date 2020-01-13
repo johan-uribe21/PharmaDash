@@ -8,6 +8,13 @@
           <q-icon name="directions_run" />
           PharmaDash - Courier
         </q-toolbar-title>
+        <q-btn
+          @click="handleLogout"
+          outline
+          rounded
+          color="white"
+          label="Logout"
+        />
       </q-toolbar>
     </q-header>
 
@@ -55,6 +62,7 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
 export default {
   data() {
     return {
@@ -63,17 +71,24 @@ export default {
         {
           icon: "inbox",
           label: "Todays Orders",
-          route: "courToday",
+          route: "courierToday",
           separator: true
         },
         {
           icon: "send",
           label: "All Orders",
-          route: "courAll",
+          route: "courierAll",
           separator: false
         }
       ]
     };
+  },
+  methods: {
+    ...mapActions("pharmaStore", ["logout"]),
+    handleLogout() {
+      this.logout();
+      this.$router.push({ name: "AuthPage" });
+    }
   }
 };
 </script>

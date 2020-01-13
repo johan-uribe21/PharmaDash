@@ -1,6 +1,6 @@
 <template>
   <q-page class="flex flex-start">
-    <order-table title="All Orders" />
+    <order-table title="All Orders" :today="false" />
     <div>
       <q-dialog v-model="addOrder" persistent>
         <add-order-card />
@@ -33,15 +33,30 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("pharmaStore", ["getUser", "getOrdersAll", "dataLoading"])
-  },
-  methods: {
-    ...mapActions("pharmaStore", ["loadOrderData"]),
-    handleAddClick() {
-      console.log("Add new order button clicked!");
+    ...mapGetters("pharmaStore", [
+      "getUser",
+      "getOrdersAll",
+      "dataLoading",
+      "getOrdersUpToDate",
+      "getPatientsUpToDate",
+      "getCouriersUpToDate"
+    ]),
+    pharmacyId() {
+      return this.getUser.pharmacy_id;
     }
   },
-  created() {}
+  methods: {
+    ...mapActions("pharmaStore", [
+      "loadOrderData",
+      "loadPatients",
+      "loadCouriers"
+    ])
+  },
+  created() {
+    if (!this.getOrdersUpToDate) this.loadOrderData(this.pharmacyId);
+    if (!this.getPatientsUpToDate) this.loadPatients(this.getUser.pharmacy_id);
+    if (!this.getCouriersUpToDate) this.loadCouriers(this.getUser.pharmacy_id);
+  }
 };
 </script>
 
