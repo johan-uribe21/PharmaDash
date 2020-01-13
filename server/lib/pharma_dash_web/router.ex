@@ -31,6 +31,7 @@ defmodule PharmaDashWeb.Router do
   scope "/api/users", PharmaDashWeb do
     pipe_through([:api])
 
+    post("/sign_out", UserController, :sign_out)
     post("/sign_in", UserController, :sign_in)
     post("/pharmacies/:id", UserController, :create_pharmacy_user)
     post("/couriers/:id", UserController, :create_courier_user)
@@ -39,7 +40,7 @@ defmodule PharmaDashWeb.Router do
   scope "/api/orders", PharmaDashWeb do
     pipe_through([:api, :api_auth])
 
-    get("/couriers/:courier_id", OrderController, :show_courier_orders)
+    get("/couriers/:courier_id", OrderController, :list_courier_orders)
     get("/pharmacies/:pharmacy_id", OrderController, :list_pharmacy_orders)
 
     post(

@@ -71,7 +71,7 @@ defmodule PharmaDashWeb.UserController do
     end
   end
 
-  def signout(conn, _params) do
+  def sign_out(conn, _params) do
     conn
     |> configure_session(drop: true)
     |> send_resp(:no_content, "")

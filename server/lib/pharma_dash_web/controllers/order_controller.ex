@@ -88,6 +88,16 @@ defmodule PharmaDashWeb.OrderController do
     |> render("index.json", orders: orders)
   end
 
+  def list_courier_orders(conn, %{"courier_id" => courier_id}) do
+    orders =
+      from(Order, where: [courier_id: ^courier_id])
+      |> Repo.all()
+
+    conn
+    |> put_view(OrderView)
+    |> render("index.json", orders: orders)
+  end
+
   def cancel_order(conn, %{"order_id" => order_id}) do
     order = Items.get_order!(order_id)
 
