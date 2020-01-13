@@ -231,3 +231,27 @@ export async function loadCouriers({ commit }) {
     commit("setDataLoading", false);
   }
 }
+
+export async function cancelOrder({ commit }, orderId) {
+  commit("setDataLoading", true);
+  try {
+    const res = await axios.patch(`api/orders/${orderId}/cancel`);
+    commit("cancelOrder", res.data.data);
+    commit("setDataLoading", false);
+  } catch (error) {
+    console.error(error);
+    commit("setDataLoading", false);
+  }
+}
+
+export async function uncancelOrder({ commit }, orderId) {
+  commit("setDataLoading", true);
+  try {
+    const res = await axios.patch(`api/orders/${orderId}/uncancel`);
+    commit("uncancelOrder", res.data.data);
+    commit("setDataLoading", false);
+  } catch (error) {
+    console.error(error);
+    commit("setDataLoading", false);
+  }
+}

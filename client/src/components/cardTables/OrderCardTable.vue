@@ -38,11 +38,18 @@
                   <q-item-label>{{ col.value }}</q-item-label>
                 </q-item-section>
                 <q-btn
-                  v-if="col.label === 'Active'"
+                  v-if="col.label === 'Active' && col.value === '\u2713'"
                   @click="handleCancel(props.cols[0].value)"
-                  :label="
-                    col.value === '\u2713' ? 'Cancel Order' : 'Uncancel Order'
-                  "
+                  :label="'Cancel Order'"
+                  size="sm"
+                  color="primary"
+                  outline
+                  rounded
+                />
+                <q-btn
+                  v-if="col.label === 'Active' && col.value === '\u2717'"
+                  @click="handleUncancel(props.cols[0].value)"
+                  :label="'Uncancel Order'"
                   size="sm"
                   color="primary"
                   outline
@@ -98,27 +105,34 @@ export default {
           name: "active",
           label: "Active",
           field: "active",
-          format: val => (val ? "\u2713" : "\u2717")
+          format: val => (val === true ? "\u2713" : "\u2717")
         },
         {
           name: "delivered",
           label: "Delivered",
           field: "delivered",
-          format: val => (val ? "\u2713" : "\u2717")
+          format: val => (val === true ? "\u2713" : "\u2717")
         },
         {
           name: "deliverable",
           label: "Deliverable",
           field: "deliverable",
-          format: val => (val ? "\u2713" : "\u2717")
+          format: val => (val === true ? "\u2713" : "\u2717")
         }
       ]
     };
   },
   methods: {
-    ...mapActions("pharmaStore", ["loadOrderData"]),
+    ...mapActions("pharmaStore", [
+      "loadOrderData",
+      "cancelOrder",
+      "uncancelOrder"
+    ]),
     handleCancel(orderId) {
-      console.log("Cancel order", orderId);
+      this.cancelOrder(orderId);
+    },
+    handleUncancel(orderId) {
+      this.uncancelOrder(orderId);
     }
   }
 };

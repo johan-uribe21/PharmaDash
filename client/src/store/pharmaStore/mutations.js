@@ -58,3 +58,21 @@ export function submitNewCourier(state, payload) {
 export function submitNewOrder(state, payload) {
   state.orders = [...state.orders, payload];
 }
+
+export function cancelOrder(state, payload) {
+  state.orders = state.orders.map(e => {
+    if (e.id === payload.id) {
+      return payload;
+    }
+    return e;
+  });
+}
+
+export function uncancelOrder(state, payload) {
+  state.orders = state.orders.map(e => {
+    if (e.id === payload.id) {
+      return payload;
+    }
+    return e;
+  });
+}
