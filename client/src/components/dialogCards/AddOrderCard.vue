@@ -37,8 +37,7 @@
       <q-input
         placeholder="Pickup Date"
         v-model="orderDetails.pickupDate"
-        mask="date"
-        :rules="['date']"
+        :rules="['orderDetails.pickupDate']"
       >
         <template v-slot:append>
           <q-icon name="event" class="cursor-pointer">
@@ -50,6 +49,7 @@
               <q-date
                 v-model="orderDetails.pickupDate"
                 @input="() => $refs.qDateProxy.hide()"
+                mask="YYYY-MM-DD"
               />
             </q-popup-proxy>
           </q-icon>
@@ -59,7 +59,7 @@
         placeholder="Pickup Time"
         v-model="orderDetails.pickupTime"
         mask="time"
-        :rules="['time']"
+        :rules="['orderDetails.pickupTime']"
       >
         <template v-slot:append>
           <q-icon name="access_time" class="cursor-pointer">

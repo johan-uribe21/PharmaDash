@@ -1,6 +1,6 @@
 <template>
   <q-page class="flex flex-start">
-    <order-table title="Today's Orders" :today="true" />
+    <order-table title="All Orders" />
     <div>
       <q-dialog v-model="addOrder" persistent>
         <add-order-card />
@@ -9,6 +9,13 @@
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
       <q-btn fab icon="add" color="red" @click="addOrder = true" />
     </q-page-sticky>
+    <q-spinner
+      color="primary"
+      size="3em"
+      :thickness="10"
+      class="q-mt-md"
+      v-if="dataLoading"
+    />
   </q-page>
 </template>
 
@@ -26,14 +33,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("pharmaStore", [
-      "getUser",
-      "getOrdersToday",
-      "getOrdersUpToDate"
-    ]),
-    pharmacyId() {
-      return this.getUser.pharmacy_id;
-    }
+    ...mapGetters("pharmaStore", ["getUser", "getOrdersAll", "dataLoading"])
   },
   methods: {
     ...mapActions("pharmaStore", ["loadOrderData"]),
@@ -41,9 +41,7 @@ export default {
       console.log("Add new order button clicked!");
     }
   },
-  created() {
-    if (!this.getOrdersUpToDate) this.loadOrderData(this.pharmacyId);
-  }
+  created() {}
 };
 </script>
 

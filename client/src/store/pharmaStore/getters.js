@@ -30,3 +30,11 @@ export function getSelectedOrg(state) {
 export function getOrdersUpToDate(state) {
   return state.ordersUpToDate;
 }
+
+export function getPatientsUpToDate(state) {
+  return state.patientsUpToDate;
+}
+
+export function getPatients(state) {
+  return state.patients;
+}

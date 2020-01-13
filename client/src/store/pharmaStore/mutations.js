@@ -3,8 +3,13 @@ export function setUser(state, payload) {
 }
 
 export function loadOrderData(state, payload) {
-  state.orders = [...state.orders, ...payload];
+  state.orders = [...payload];
   state.ordersUpToDate = true;
+}
+
+export function loadPatients(state, payload) {
+  state.patients = [...payload];
+  state.patientsUpToDate = true;
 }
 
 export function createPharmacy(state, payload) {
@@ -39,4 +44,8 @@ export function getCouriers(state, payload) {
 
 export function setSelectedOrg(state, payload) {
   state.selectedOrg = payload;
+}
+
+export function submitNewPatient(state, payload) {
+  state.patients = [...state.patients, payload];
 }

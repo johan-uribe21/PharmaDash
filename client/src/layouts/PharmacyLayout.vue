@@ -71,6 +71,12 @@ export default {
           label: "All Orders",
           route: "pharmaAll",
           separator: false
+        },
+        {
+          icon: "people",
+          label: "Patients",
+          route: "patients",
+          separator: false
         }
       ]
     };

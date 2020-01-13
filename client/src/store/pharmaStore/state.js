@@ -9,6 +9,8 @@ export default function() {
     pharmacies: [],
     couriers: [],
     selectedOrg: {},
-    ordersUpToDate: false
+    ordersUpToDate: false,
+    patients: [],
+    patientsUpToDate: false
   };
 }

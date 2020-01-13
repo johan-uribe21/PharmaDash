@@ -4,7 +4,7 @@
       grid
       card-class="bg-primary text-white"
       :title="title"
-      :data="today ? getOrdersToday : getOrdersAll"
+      :data="getPatients"
       :columns="columns"
       row-key="name"
       :filter="filter"
@@ -37,17 +37,6 @@
                   <q-item-label caption>{{ col.label }}</q-item-label>
                   <q-item-label>{{ col.value }}</q-item-label>
                 </q-item-section>
-                <q-btn
-                  v-if="col.label === 'Active'"
-                  @click="handleCancel(props.cols[0].value)"
-                  :label="
-                    col.value === '\u2713' ? 'Cancel Order' : 'Uncancel Order'
-                  "
-                  size="sm"
-                  color="primary"
-                  outline
-                  rounded
-                />
               </q-item>
             </q-list>
           </q-card>
@@ -63,7 +52,7 @@ export default {
   name: "OrderCardTable",
   props: ["title", "today"],
   computed: {
-    ...mapGetters("pharmaStore", ["getOrdersAll", "getOrdersToday"])
+    ...mapGetters("pharmaStore", ["getPatients"])
   },
   data() {
     return {
@@ -71,52 +60,32 @@ export default {
       selected: [],
       columns: [
         {
-          name: "orderId",
-          label: "Order Id",
+          name: "patientId",
+          label: "Patient ID",
           field: "id",
-          sortable: true,
-          style: "width: 500px"
+          sortable: true
         },
         {
           name: "patientName",
           label: "Patient Name",
-          field: "patient_name",
+          field: "name",
           sortable: true
         },
         {
-          name: "rxIds",
-          label: "Prescription Ids",
-          field: "rxIds",
-          format: (val, row) => `${val}`
+          name: "addressLineOne",
+          label: "Address Line One",
+          field: row => row.street
         },
         {
-          name: "pickupDateTime",
-          label: "Pickup Date/Time",
-          field: row => row.pickupDate + " @  " + row.pickupTime
-        },
-        {
-          name: "active",
-          label: "Active",
-          field: "active",
-          format: val => (val ? "\u2713" : "\u2717")
-        },
-        {
-          name: "delivered",
-          label: "Delivered",
-          field: "delivered",
-          format: val => (val ? "\u2713" : "\u2717")
-        },
-        {
-          name: "deliverable",
-          label: "Deliverable",
-          field: "deliverable",
-          format: val => (val ? "\u2713" : "\u2717")
+          name: "addressLineTwo",
+          label: "Address Line Two",
+          field: row => row.city + ", " + row.stateAbr + " " + row.zipcode
         }
       ]
     };
   },
   methods: {
-    ...mapActions("pharmaStore", ["loadOrderData"]),
+    ...mapActions("pharmaStore", []),
     handleCancel(orderId) {
       console.log("Cancel order", orderId);
     }

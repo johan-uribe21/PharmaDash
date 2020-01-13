@@ -2,7 +2,7 @@
   <q-card style="min-width: 350px">
     <q-card-section>
       <div class="text-h6">
-        Log in
+        Sign In
       </div>
     </q-card-section>
     <q-card-section>

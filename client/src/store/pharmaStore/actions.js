@@ -168,12 +168,50 @@ export async function getOrCreateCouriers({ commit }) {
   }
 }
 
-export async function submitNewOrder({ commit }, newOrder) {
+export async function submitNewOrder({ commit }, params) {
   commit("setDataLoading", true);
-  console.log("New Order Data:", newOrder);
-  commit("setDataLoading", false);
+  try {
+    const res = await axios.post(
+      `api/orders/pharmacy/${params.pharmacy_id}`,
+      params
+    );
+    commit("createCourier", res.data.data);
+    commit("setDataLoading", false);
+    return true;
+  } catch (error) {
+    console.error(error);
+    commit("setDataLoading", false);
+  }
+}
+
+export async function submitNewPatient({ commit }, v) {
+  commit("setDataLoading", true);
+  try {
+    const res = await axios.post(
+      `api/patients/pharmacies/${v.pharmacyId}`,
+      v.params
+    );
+    commit("submitNewPatient", res.data.data);
+    commit("setDataLoading", false);
+    return true;
+  } catch (error) {
+    console.error(error);
+    commit("setDataLoading", false);
+  }
 }
 
 export function setSelectedOrg({ commit }, value) {
   commit("setSelectedOrg", value);
+}
+
+export async function loadPatients({ commit }, pharmacy_id) {
+  commit("setDataLoading", true);
+  try {
+    const res = await axios.get(`api/patients/pharmacies/${pharmacy_id}`);
+    commit("loadPatients", res.data.data);
+    commit("setDataLoading", false);
+  } catch (error) {
+    console.error(error);
+    commit("setDataLoading", false);
+  }
 }

@@ -1,8 +1,9 @@
 import PharmacyLayout from "layouts/PharmacyLayout";
 import AuthLayout from "layouts/AuthLayout";
 import CourierLayout from "layouts/CourierLayout";
-import OrdersAll from "pages/OrdersAll";
-import OrdersToday from "pages/OrdersToday";
+import PharmaOrdersAll from "pages/PharmaOrdersAll";
+import PharmaOrdersToday from "pages/PharmaOrdersToday";
+import PharmaPatients from "pages/PharmaPatients";
 import Error404 from "pages/Error404";
 import AuthPage from "pages/AuthPage";
 
@@ -18,8 +19,17 @@ const routes = [
     component: PharmacyLayout,
     children: [
       { path: "", redirect: "orders_today" },
-      { path: "orders_today", name: "pharmaToday", component: OrdersToday },
-      { path: "orders_all", name: "pharmaAll", component: OrdersAll }
+      {
+        path: "orders_today",
+        name: "pharmaToday",
+        component: PharmaOrdersToday
+      },
+      {
+        path: "patients",
+        name: "patients",
+        component: PharmaPatients
+      },
+      { path: "orders_all", name: "pharmaAll", component: PharmaOrdersAll }
     ]
   },
   {
@@ -27,8 +37,12 @@ const routes = [
     component: CourierLayout,
     children: [
       { path: "", redirect: "orders_today" },
-      { path: "orders_today", name: "courierToday", component: OrdersToday },
-      { path: "orders_all", name: "courierAll", component: OrdersAll }
+      {
+        path: "orders_today",
+        name: "courierToday",
+        component: PharmaOrdersToday
+      },
+      { path: "orders_all", name: "courierAll", component: PharmaOrdersAll }
     ]
   }
 ];
