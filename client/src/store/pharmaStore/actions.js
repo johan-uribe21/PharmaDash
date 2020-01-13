@@ -168,14 +168,14 @@ export async function getOrCreateCouriers({ commit }) {
   }
 }
 
-export async function submitNewOrder({ commit }, params) {
+export async function submitNewOrder({ commit }, v) {
   commit("setDataLoading", true);
   try {
     const res = await axios.post(
-      `api/orders/pharmacy/${params.pharmacy_id}`,
-      params
+      `api/orders/pharmacies/${v.pharmacyId}/couriers/${v.courierId}/patients/${v.patientId}`,
+      v.data
     );
-    commit("createCourier", res.data.data);
+    commit("submitNewOrder", res.data.data);
     commit("setDataLoading", false);
     return true;
   } catch (error) {

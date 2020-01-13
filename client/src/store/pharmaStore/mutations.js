@@ -53,3 +53,7 @@ export function submitNewPatient(state, payload) {
 export function submitNewCourier(state, payload) {
   state.couriers = [...state.couriers, payload];
 }
+
+export function submitNewOrder(state, payload) {
+  state.orders = [...state.orders, payload];
+}

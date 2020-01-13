@@ -5,39 +5,40 @@
     </q-card-section>
 
     <q-card-section>
-      <q-input
-        placeholder="Patient Name"
+      <q-select
         dense
-        v-model="orderDetails.patientName"
         autofocus
+        filled
+        v-model="data.order.patientName"
+        :options="patients"
+        label="Select Patient"
         :rules="[val => !!val || 'Field is required']"
         lazy-rules
       />
-      <q-input
-        placeholder="Patient Address Line One"
+      <q-select
         dense
-        v-model="orderDetails.patientAddressLineOne"
-        :rules="[val => !!val || 'Field is required']"
-        lazy-rules
-      />
-      <q-input
-        placeholder="Patient Address Line Two"
-        dense
-        v-model="orderDetails.patientAddressLineTwo"
+        autofocus
+        filled
+        v-model="data.order.courierName"
+        :options="couriers"
+        label="Select Courier"
         :rules="[val => !!val || 'Field is required']"
         lazy-rules
       />
       <q-input
         placeholder="Prescription Ids"
+        filled
         dense
-        v-model="orderDetails.rxIds"
+        v-model="data.order.rxIds"
         :rules="[val => !!val || 'Field is required']"
         lazy-rules
       />
       <q-input
+        filled
+        dense
         placeholder="Pickup Date"
-        v-model="orderDetails.pickupDate"
-        :rules="['orderDetails.pickupDate']"
+        v-model="data.order.pickupDate"
+        :rules="['data.order.pickupDate']"
       >
         <template v-slot:append>
           <q-icon name="event" class="cursor-pointer">
@@ -47,7 +48,7 @@
               transition-hide="scale"
             >
               <q-date
-                v-model="orderDetails.pickupDate"
+                v-model="data.order.pickupDate"
                 @input="() => $refs.qDateProxy.hide()"
                 mask="YYYY-MM-DD"
               />
@@ -56,15 +57,17 @@
         </template>
       </q-input>
       <q-input
+        dense
+        filled
         placeholder="Pickup Time"
-        v-model="orderDetails.pickupTime"
+        v-model="data.order.pickupTime"
         mask="time"
-        :rules="['orderDetails.pickupTime']"
+        :rules="['data.order.pickupTime']"
       >
         <template v-slot:append>
           <q-icon name="access_time" class="cursor-pointer">
             <q-popup-proxy transition-show="scale" transition-hide="scale">
-              <q-time v-model="orderDetails.pickupTime" />
+              <q-time v-model="data.order.pickupTime" />
             </q-popup-proxy>
           </q-icon>
         </template>
@@ -88,23 +91,47 @@ import { mapActions, mapGetters } from "vuex";
 export default {
   data() {
     return {
-      orderDetails: {
-        patientName: "",
-        patientAddressLineOne: "",
-        patientAddressLineTwo: "",
-        rxIds: "",
-        pickupDate: "",
-        pickupTime: ""
+      data: {
+        order: {
+          rxIds: "",
+          pickupDate: "",
+          pickupTime: "",
+          courierName: "",
+          patientName: ""
+        }
       }
     };
   },
   computed: {
-    ...mapGetters("pharmaStore", [""])
+    ...mapGetters("pharmaStore", ["getPatients", "getCouriers", "getUser"]),
+    patients() {
+      return this.getPatients.map(e => e.name);
+    },
+    couriers() {
+      return this.getCouriers.map(e => e.name);
+    },
+    orderParams() {
+      const courierId = this.getCouriers.filter(
+        e => e.name === this.data.order.courierName
+      )[0].id;
+      const patientId = this.getPatients.filter(
+        e => e.name === this.data.order.patientName
+      )[0].id;
+      return {
+        data: {
+          order: { ...this.data.order, rxIds: this.data.order.rxIds.split(" ") }
+        },
+        patientId: patientId,
+        courierId: courierId,
+        pharmacyId: this.getUser.pharmacy_id
+      };
+    }
   },
   methods: {
     ...mapActions("pharmaStore", ["submitNewOrder"]),
     handleSubmit() {
-      this.submitNewOrder(this.orderDetails);
+      console.log(this.orderParams);
+      this.submitNewOrder(this.orderParams);
     }
   }
 };
