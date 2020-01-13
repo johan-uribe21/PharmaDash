@@ -8,6 +8,7 @@ erl_crash.dump
 *.beam
 /config/*.secret.exs
 .elixir_ls/
+/.VSCodeCounter
 # Ignore package tarball (built via "mix hex.build").
 pharma_dash-*.tar
 /priv/static/
