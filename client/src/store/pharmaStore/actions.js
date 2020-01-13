@@ -81,11 +81,11 @@ export async function createPharmacy({ commit }, value) {
   }
 }
 
-export async function getPharmacies({ commit }) {
+export async function loadPharmacies({ commit }) {
   commit("setDataLoading", true);
   try {
     const res = await axios.get(`api/pharmacies`);
-    commit("getPharmacies", res.data.data);
+    commit("loadPharmacies", res.data.data);
     commit("setDataLoading", false);
   } catch (error) {
     console.error(error);
@@ -112,7 +112,7 @@ export async function createSeedPharmacies({ commit }) {
 }
 
 export async function getOrCreatePharmacies({ commit }) {
-  const done = await getPharmacies({ commit });
+  const done = await loadPharmacies({ commit });
   if (done && state.pharmacies.length < 3) {
     createSeedPharmacies({ commit });
   }
@@ -125,18 +125,6 @@ export async function createCourier({ commit }, value) {
     commit("createCourier", res.data.data);
     commit("setDataLoading", false);
     return true;
-  } catch (error) {
-    console.error(error);
-    commit("setDataLoading", false);
-  }
-}
-
-export async function getCouriers({ commit }) {
-  commit("setDataLoading", true);
-  try {
-    const res = await axios.get(`api/couriers`);
-    commit("getCouriers", res.data.data);
-    commit("setDataLoading", false);
   } catch (error) {
     console.error(error);
     commit("setDataLoading", false);
@@ -162,7 +150,7 @@ export async function createSeedCouriers({ commit }) {
 }
 
 export async function getOrCreateCouriers({ commit }) {
-  const done = await getCouriers({ commit });
+  const done = await loadCouriers({ commit });
   if (done && state.couriers.length < 3) {
     createSeedCouriers({ commit });
   }
@@ -225,6 +213,18 @@ export async function loadPatients({ commit }, pharmacy_id) {
   try {
     const res = await axios.get(`api/patients/pharmacies/${pharmacy_id}`);
     commit("loadPatients", res.data.data);
+    commit("setDataLoading", false);
+  } catch (error) {
+    console.error(error);
+    commit("setDataLoading", false);
+  }
+}
+
+export async function loadCouriers({ commit }) {
+  commit("setDataLoading", true);
+  try {
+    const res = await axios.get(`api/couriers`);
+    commit("loadCouriers", res.data.data);
     commit("setDataLoading", false);
   } catch (error) {
     console.error(error);

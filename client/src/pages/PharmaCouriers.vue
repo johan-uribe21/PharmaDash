@@ -38,18 +38,15 @@ export default {
     ...mapGetters("pharmaStore", [
       "getUser",
       "getOrdersToday",
-      "getPatientsUpToDate",
+      "getCouriersUpToDate",
       "dataLoading"
     ])
   },
   methods: {
-    ...mapActions("pharmaStore", ["loadPatients"]),
-    handleAddClick() {
-      console.log("Add new order button clicked!");
-    }
+    ...mapActions("pharmaStore", ["loadCouriers"])
   },
   created() {
-    if (!this.getPatientsUpToDate) this.loadPatients(this.getUser.pharmacy_id);
+    if (!this.getCouriersUpToDate) this.loadCouriers(this.getUser.pharmacy_id);
   }
 };
 </script>

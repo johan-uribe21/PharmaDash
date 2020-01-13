@@ -130,7 +130,6 @@ export default {
   methods: {
     ...mapActions("pharmaStore", ["submitNewOrder"]),
     handleSubmit() {
-      console.log(this.orderParams);
       this.submitNewOrder(this.orderParams);
     }
   }

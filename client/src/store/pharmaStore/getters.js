@@ -23,6 +23,10 @@ export function getCouriers(state) {
   return state.couriers;
 }
 
+export function getPatients(state) {
+  return state.patients;
+}
+
 export function getSelectedOrg(state) {
   return state.selectedOrg;
 }
@@ -35,6 +39,6 @@ export function getPatientsUpToDate(state) {
   return state.patientsUpToDate;
 }
 
-export function getPatients(state) {
-  return state.patients;
+export function getCouriersUpToDate(state) {
+  return state.couriersUpToDate;
 }

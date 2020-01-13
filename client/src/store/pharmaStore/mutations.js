@@ -12,6 +12,15 @@ export function loadPatients(state, payload) {
   state.patientsUpToDate = true;
 }
 
+export function loadCouriers(state, payload) {
+  state.couriers = payload;
+  state.couriersUpToDate = true;
+}
+
+export function loadPharmacies(state, payload) {
+  state.pharmacies = payload;
+}
+
 export function createPharmacy(state, payload) {
   state.currentPharmacy = payload;
   state.isPharmacyUser = true;
@@ -32,14 +41,6 @@ export function createSeedCourier(state, payload) {
 
 export function setDataLoading(state, payload) {
   state.dataLoading = payload;
-}
-
-export function getPharmacies(state, payload) {
-  state.pharmacies = payload;
-}
-
-export function getCouriers(state, payload) {
-  state.couriers = payload;
 }
 
 export function setSelectedOrg(state, payload) {

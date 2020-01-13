@@ -85,10 +85,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions("pharmaStore", []),
-    handleCancel(orderId) {
-      console.log("Cancel order", orderId);
-    }
+    ...mapActions("pharmaStore", [])
   }
 };
 </script>

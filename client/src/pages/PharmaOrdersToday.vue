@@ -36,21 +36,26 @@ export default {
     ...mapGetters("pharmaStore", [
       "getUser",
       "getOrdersToday",
+      "dataLoading",
       "getOrdersUpToDate",
-      "dataLoading"
+      "getPatientsUpToDate",
+      "getCouriersUpToDate"
     ]),
     pharmacyId() {
       return this.getUser.pharmacy_id;
     }
   },
   methods: {
-    ...mapActions("pharmaStore", ["loadOrderData"]),
-    handleAddClick() {
-      console.log("Add new order button clicked!");
-    }
+    ...mapActions("pharmaStore", [
+      "loadOrderData",
+      "loadPatients",
+      "loadCouriers"
+    ])
   },
   created() {
     if (!this.getOrdersUpToDate) this.loadOrderData(this.pharmacyId);
+    if (!this.getPatientsUpToDate) this.loadPatients(this.getUser.pharmacy_id);
+    if (!this.getCouriersUpToDate) this.loadCouriers(this.getUser.pharmacy_id);
   }
 };
 </script>

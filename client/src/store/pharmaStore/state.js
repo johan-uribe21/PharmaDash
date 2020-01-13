@@ -11,6 +11,7 @@ export default function() {
     selectedOrg: {},
     ordersUpToDate: false,
     patients: [],
-    patientsUpToDate: false
+    patientsUpToDate: false,
+    couriersUpToDate: false
   };
 }
