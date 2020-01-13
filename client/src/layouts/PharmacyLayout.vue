@@ -42,7 +42,6 @@
     <q-page-container>
       <router-view />
     </q-page-container>
-
     <q-footer elevated class="bg-grey-8 text-white">
       <q-toolbar>
         <q-toolbar-title>
@@ -55,7 +54,11 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
+  computed: {
+    ...mapGetters("pharmaStore", ["dataLoading"])
+  },
   data() {
     return {
       left: true,
@@ -70,6 +73,12 @@ export default {
           icon: "send",
           label: "All Orders",
           route: "pharmaAll",
+          separator: false
+        },
+        {
+          icon: "directions_car",
+          label: "Couriers",
+          route: "couriers",
           separator: false
         },
         {

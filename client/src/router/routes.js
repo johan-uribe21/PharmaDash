@@ -4,6 +4,7 @@ import CourierLayout from "layouts/CourierLayout";
 import PharmaOrdersAll from "pages/PharmaOrdersAll";
 import PharmaOrdersToday from "pages/PharmaOrdersToday";
 import PharmaPatients from "pages/PharmaPatients";
+import PharmaCouriers from "pages/PharmaCouriers";
 import Error404 from "pages/Error404";
 import AuthPage from "pages/AuthPage";
 
@@ -28,6 +29,11 @@ const routes = [
         path: "patients",
         name: "patients",
         component: PharmaPatients
+      },
+      {
+        path: "couriers",
+        name: "couriers",
+        component: PharmaCouriers
       },
       { path: "orders_all", name: "pharmaAll", component: PharmaOrdersAll }
     ]

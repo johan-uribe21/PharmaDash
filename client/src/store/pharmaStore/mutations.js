@@ -49,3 +49,7 @@ export function setSelectedOrg(state, payload) {
 export function submitNewPatient(state, payload) {
   state.patients = [...state.patients, payload];
 }
+
+export function submitNewCourier(state, payload) {
+  state.couriers = [...state.couriers, payload];
+}

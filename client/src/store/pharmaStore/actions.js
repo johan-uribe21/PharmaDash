@@ -200,6 +200,22 @@ export async function submitNewPatient({ commit }, v) {
   }
 }
 
+export async function submitNewCourier({ commit }, v) {
+  commit("setDataLoading", true);
+  try {
+    const res = await axios.post(
+      `api/couriers/pharmacies/${v.pharmacyId}`,
+      v.params
+    );
+    commit("submitNewCourier", res.data.data);
+    commit("setDataLoading", false);
+    return true;
+  } catch (error) {
+    console.error(error);
+    commit("setDataLoading", false);
+  }
+}
+
 export function setSelectedOrg({ commit }, value) {
   commit("setSelectedOrg", value);
 }

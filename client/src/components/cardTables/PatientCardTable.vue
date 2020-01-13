@@ -4,7 +4,7 @@
       grid
       card-class="bg-primary text-white"
       :title="title"
-      :data="getPatients"
+      :data="courier ? getCouriers : getPatients"
       :columns="columns"
       row-key="name"
       :filter="filter"
@@ -50,9 +50,9 @@
 import { mapActions, mapGetters } from "vuex";
 export default {
   name: "OrderCardTable",
-  props: ["title", "today"],
+  props: ["title", "today", "courier"],
   computed: {
-    ...mapGetters("pharmaStore", ["getPatients"])
+    ...mapGetters("pharmaStore", ["getPatients", "getCouriers"])
   },
   data() {
     return {
@@ -61,13 +61,13 @@ export default {
       columns: [
         {
           name: "patientId",
-          label: "Patient ID",
+          label: this.courier ? "Courier ID" : "Patient ID",
           field: "id",
           sortable: true
         },
         {
           name: "patientName",
-          label: "Patient Name",
+          label: this.courier ? "Courier Name" : "Patient Name",
           field: "name",
           sortable: true
         },

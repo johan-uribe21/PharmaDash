@@ -1,13 +1,13 @@
 <template>
   <q-page class="flex column flex-start">
-    <patient-table title="Patients" />
+    <patients-table title="Couriers" :courier="true" />
     <div>
-      <q-dialog v-model="addPatient" persistent>
-        <add-patient-card />
+      <q-dialog v-model="addCourier" persistent>
+        <add-courier-card />
       </q-dialog>
     </div>
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
-      <q-btn fab icon="add" color="red" @click="addPatient = true" />
+      <q-btn fab icon="add" color="red" @click="addCourier = true" />
     </q-page-sticky>
     <q-spinner
       color="primary"
@@ -22,16 +22,16 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 export default {
-  name: "Patients",
+  name: "Couriers",
   components: {
-    "patient-table": require("components/cardTables/PatientCardTable.vue")
+    "patients-table": require("components/cardTables/PatientCardTable.vue")
       .default,
-    "add-patient-card": require("components/dialogCards/AddPatientCard.vue")
+    "add-courier-card": require("components/dialogCards/AddCourierCard.vue")
       .default
   },
   data() {
     return {
-      addPatient: false
+      addCourier: false
     };
   },
   computed: {
