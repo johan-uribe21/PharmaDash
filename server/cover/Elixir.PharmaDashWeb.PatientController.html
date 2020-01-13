@@ -103,7 +103,7 @@ td.source {
 </head>
 <body>
 <h1><code>cover/Elixir.PharmaDashWeb.PatientController.html</code></h1>
-<footer><p>File generated from <code>/Users/juribe/Desktop/dev/elixirDir/PharmaDash/server/lib/pharma_dash_web/controllers/patient_controller.ex</code> by <a href="http://erlang.org/doc/man/cover.html">cover</a> at 2020-01-11 at 16:21:24</p></footer>
+<footer><p>File generated from <code>/Users/juribe/Desktop/dev/elixirDir/PharmaDash/server/lib/pharma_dash_web/controllers/patient_controller.ex</code> by <a href="http://erlang.org/doc/man/cover.html">cover</a> at 2020-01-13 at 00:11:58</p></footer>
 <table>
 <tbody>
 <tr class="hit">
@@ -461,73 +461,48 @@ td.source {
 <td class="hits"></td>
 <td class="source"><code></code></td>
 </tr>
-<tr>
+<tr class="miss">
 <td class="line" id="L72"><a href="#L72">72</a></td>
-<td class="hits"></td>
-<td class="source"><code>    # {:ok, pickup_date} = Timex.parse(order_params["pickupDate"], "{YYYY}-{0M}-{D}")</code></td>
-</tr>
-<tr>
-<td class="line" id="L73"><a href="#L73">73</a></td>
-<td class="hits"></td>
-<td class="source"><code></code></td>
-</tr>
-<tr class="miss">
-<td class="line" id="L74"><a href="#L74">74</a></td>
-<td class="hits"><pre style="display: inline;">:-(</pre></td>
-<td class="source"><code>    changeset = Patient.changeset(%Patient{}, full_patient_params)</code></td>
-</tr>
-<tr class="miss">
-<td class="line" id="L75"><a href="#L75">75</a></td>
-<td class="hits"><pre style="display: inline;">:-(</pre></td>
-<td class="source"><code>    IO.inspect(changeset)</code></td>
-</tr>
-<tr>
-<td class="line" id="L76"><a href="#L76">76</a></td>
-<td class="hits"></td>
-<td class="source"><code></code></td>
-</tr>
-<tr class="miss">
-<td class="line" id="L77"><a href="#L77">77</a></td>
 <td class="hits"><pre style="display: inline;">:-(</pre></td>
 <td class="source"><code>    with {:ok, patient} &lt;- People.create_patient(full_patient_params) do</code></td>
 </tr>
 <tr>
-<td class="line" id="L78"><a href="#L78">78</a></td>
+<td class="line" id="L73"><a href="#L73">73</a></td>
 <td class="hits"></td>
 <td class="source"><code>      conn</code></td>
 </tr>
 <tr>
-<td class="line" id="L79"><a href="#L79">79</a></td>
+<td class="line" id="L74"><a href="#L74">74</a></td>
 <td class="hits"></td>
 <td class="source"><code>      |&gt; put_status(:created)</code></td>
 </tr>
 <tr>
-<td class="line" id="L80"><a href="#L80">80</a></td>
+<td class="line" id="L75"><a href="#L75">75</a></td>
 <td class="hits"></td>
 <td class="source"><code>      |&gt; put_resp_header("location", Routes.patient_path(conn, :show, patient))</code></td>
 </tr>
 <tr>
-<td class="line" id="L81"><a href="#L81">81</a></td>
+<td class="line" id="L76"><a href="#L76">76</a></td>
 <td class="hits"></td>
 <td class="source"><code>      |&gt; put_view(PatientView)</code></td>
 </tr>
 <tr class="miss">
-<td class="line" id="L82"><a href="#L82">82</a></td>
+<td class="line" id="L77"><a href="#L77">77</a></td>
 <td class="hits"><pre style="display: inline;">:-(</pre></td>
 <td class="source"><code>      |&gt; render("show.json", patient: patient)</code></td>
 </tr>
 <tr>
-<td class="line" id="L83"><a href="#L83">83</a></td>
+<td class="line" id="L78"><a href="#L78">78</a></td>
 <td class="hits"></td>
 <td class="source"><code>    end</code></td>
 </tr>
 <tr>
-<td class="line" id="L84"><a href="#L84">84</a></td>
+<td class="line" id="L79"><a href="#L79">79</a></td>
 <td class="hits"></td>
 <td class="source"><code>  end</code></td>
 </tr>
 <tr>
-<td class="line" id="L85"><a href="#L85">85</a></td>
+<td class="line" id="L80"><a href="#L80">80</a></td>
 <td class="hits"></td>
 <td class="source"><code>end</code></td>
 </tr>

@@ -103,7 +103,7 @@ td.source {
 </head>
 <body>
 <h1><code>cover/Elixir.PharmaDashWeb.Router.html</code></h1>
-<footer><p>File generated from <code>/Users/juribe/Desktop/dev/elixirDir/PharmaDash/server/lib/pharma_dash_web/router.ex</code> by <a href="http://erlang.org/doc/man/cover.html">cover</a> at 2020-01-11 at 16:21:24</p></footer>
+<footer><p>File generated from <code>/Users/juribe/Desktop/dev/elixirDir/PharmaDash/server/lib/pharma_dash_web/router.ex</code> by <a href="http://erlang.org/doc/man/cover.html">cover</a> at 2020-01-13 at 00:11:58</p></footer>
 <table>
 <tbody>
 <tr class="hit">
@@ -139,332 +139,332 @@ td.source {
 <tr>
 <td class="line" id="L7"><a href="#L7">7</a></td>
 <td class="hits"></td>
-<td class="source"><code>  end</code></td>
+<td class="source"><code>    plug(PharmaDashWeb.Plugs.SetUser)</code></td>
 </tr>
 <tr>
 <td class="line" id="L8"><a href="#L8">8</a></td>
 <td class="hits"></td>
+<td class="source"><code>  end</code></td>
+</tr>
+<tr>
+<td class="line" id="L9"><a href="#L9">9</a></td>
+<td class="hits"></td>
 <td class="source"><code></code></td>
 </tr>
 <tr class="hit">
-<td class="line" id="L9"><a href="#L9">9</a></td>
-<td class="hits">38</td>
-<td class="source"><code>  pipeline :api_auth do</code></td>
-</tr>
-<tr>
 <td class="line" id="L10"><a href="#L10">10</a></td>
-<td class="hits"></td>
-<td class="source"><code>    plug(:ensure_authenticated)</code></td>
+<td class="hits">19</td>
+<td class="source"><code>  pipeline :api_auth do</code></td>
 </tr>
 <tr>
 <td class="line" id="L11"><a href="#L11">11</a></td>
 <td class="hits"></td>
-<td class="source"><code>  end</code></td>
+<td class="source"><code>    plug(:ensure_authenticated)</code></td>
 </tr>
 <tr>
 <td class="line" id="L12"><a href="#L12">12</a></td>
 <td class="hits"></td>
-<td class="source"><code></code></td>
+<td class="source"><code>  end</code></td>
 </tr>
 <tr>
 <td class="line" id="L13"><a href="#L13">13</a></td>
 <td class="hits"></td>
-<td class="source"><code>  scope "/api", PharmaDashWeb do</code></td>
+<td class="source"><code></code></td>
 </tr>
 <tr>
 <td class="line" id="L14"><a href="#L14">14</a></td>
 <td class="hits"></td>
-<td class="source"><code>    pipe_through(:api)</code></td>
+<td class="source"><code>  # This endpoint should only be available to PharmaDash admins.</code></td>
 </tr>
 <tr>
 <td class="line" id="L15"><a href="#L15">15</a></td>
 <td class="hits"></td>
-<td class="source"><code>  end</code></td>
+<td class="source"><code>  # Will leave publicly available for demo purposes</code></td>
 </tr>
 <tr>
 <td class="line" id="L16"><a href="#L16">16</a></td>
 <td class="hits"></td>
-<td class="source"><code></code></td>
+<td class="source"><code>  scope "/api", PharmaDashWeb do</code></td>
 </tr>
 <tr>
 <td class="line" id="L17"><a href="#L17">17</a></td>
 <td class="hits"></td>
-<td class="source"><code>  scope "/api", PharmaDashWeb do</code></td>
+<td class="source"><code>    pipe_through([:api])</code></td>
 </tr>
 <tr>
 <td class="line" id="L18"><a href="#L18">18</a></td>
 <td class="hits"></td>
-<td class="source"><code>    pipe_through([:api, :api_auth])</code></td>
+<td class="source"><code></code></td>
 </tr>
 <tr>
 <td class="line" id="L19"><a href="#L19">19</a></td>
 <td class="hits"></td>
-<td class="source"><code></code></td>
+<td class="source"><code>    resources("/users", UserController, only: [:show, :index, :update, :create])</code></td>
 </tr>
 <tr>
 <td class="line" id="L20"><a href="#L20">20</a></td>
 <td class="hits"></td>
-<td class="source"><code>    resources("/users", UserController, only: [:show, :index, :update])</code></td>
+<td class="source"><code>    resources("/pharmacies", PharmacyController, only: [:show, :index, :update, :create])</code></td>
 </tr>
 <tr>
 <td class="line" id="L21"><a href="#L21">21</a></td>
 <td class="hits"></td>
-<td class="source"><code>    resources("/couriers", CourierController, except: [:new, :edit, :delete])</code></td>
+<td class="source"><code>    resources("/couriers", CourierController, only: [:show, :index, :update, :create])</code></td>
 </tr>
 <tr>
 <td class="line" id="L22"><a href="#L22">22</a></td>
 <td class="hits"></td>
-<td class="source"><code>    resources("/patients", PatientController, except: [:new, :edit, :delete])</code></td>
+<td class="source"><code>  end</code></td>
 </tr>
 <tr>
 <td class="line" id="L23"><a href="#L23">23</a></td>
 <td class="hits"></td>
-<td class="source"><code>    resources("/orders", OrderController, only: [:show, :index, :update])</code></td>
+<td class="source"><code></code></td>
 </tr>
 <tr>
 <td class="line" id="L24"><a href="#L24">24</a></td>
 <td class="hits"></td>
-<td class="source"><code>    resources("/pharmacies", PharmacyController, except: [:new, :edit, :delete])</code></td>
+<td class="source"><code>  # TODO: Add validation to only give users access to resources owned by their pharmacy/courier</code></td>
 </tr>
 <tr>
 <td class="line" id="L25"><a href="#L25">25</a></td>
 <td class="hits"></td>
-<td class="source"><code>  end</code></td>
+<td class="source"><code>  scope "/api", PharmaDashWeb do</code></td>
 </tr>
 <tr>
 <td class="line" id="L26"><a href="#L26">26</a></td>
 <td class="hits"></td>
-<td class="source"><code></code></td>
+<td class="source"><code>    pipe_through([:api, :api_auth])</code></td>
 </tr>
 <tr>
 <td class="line" id="L27"><a href="#L27">27</a></td>
 <td class="hits"></td>
-<td class="source"><code>  scope "/api/users", PharmaDashWeb do</code></td>
+<td class="source"><code>    resources("/patients", PatientController, only: [:show, :index, :update, :create])</code></td>
 </tr>
 <tr>
 <td class="line" id="L28"><a href="#L28">28</a></td>
 <td class="hits"></td>
-<td class="source"><code>    pipe_through([:api])</code></td>
+<td class="source"><code>    resources("/orders", OrderController, only: [:show, :index, :update])</code></td>
 </tr>
 <tr>
 <td class="line" id="L29"><a href="#L29">29</a></td>
 <td class="hits"></td>
+<td class="source"><code>  end</code></td>
+</tr>
+<tr>
+<td class="line" id="L30"><a href="#L30">30</a></td>
+<td class="hits"></td>
 <td class="source"><code></code></td>
 </tr>
-<tr class="hit">
-<td class="line" id="L30"><a href="#L30">30</a></td>
-<td class="hits">2</td>
-<td class="source"><code>    post("/sign_in", UserController, :sign_in)</code></td>
-</tr>
-<tr class="hit">
+<tr>
 <td class="line" id="L31"><a href="#L31">31</a></td>
-<td class="hits">2</td>
-<td class="source"><code>    post("/pharmacies/:id", UserController, :create_pharmacy_user)</code></td>
+<td class="hits"></td>
+<td class="source"><code>  scope "/api/users", PharmaDashWeb do</code></td>
 </tr>
-<tr class="miss">
+<tr>
 <td class="line" id="L32"><a href="#L32">32</a></td>
-<td class="hits"><pre style="display: inline;">:-(</pre></td>
-<td class="source"><code>    post("/couriers/:id", UserController, :create_courier_user)</code></td>
+<td class="hits"></td>
+<td class="source"><code>    pipe_through([:api])</code></td>
 </tr>
 <tr>
 <td class="line" id="L33"><a href="#L33">33</a></td>
 <td class="hits"></td>
-<td class="source"><code>  end</code></td>
-</tr>
-<tr>
-<td class="line" id="L34"><a href="#L34">34</a></td>
-<td class="hits"></td>
 <td class="source"><code></code></td>
 </tr>
-<tr>
-<td class="line" id="L35"><a href="#L35">35</a></td>
-<td class="hits"></td>
-<td class="source"><code>  scope "/api/orders", PharmaDashWeb do</code></td>
+<tr class="hit">
+<td class="line" id="L34"><a href="#L34">34</a></td>
+<td class="hits">2</td>
+<td class="source"><code>    post("/sign_in", UserController, :sign_in)</code></td>
 </tr>
-<tr>
+<tr class="hit">
+<td class="line" id="L35"><a href="#L35">35</a></td>
+<td class="hits">2</td>
+<td class="source"><code>    post("/pharmacies/:id", UserController, :create_pharmacy_user)</code></td>
+</tr>
+<tr class="miss">
 <td class="line" id="L36"><a href="#L36">36</a></td>
-<td class="hits"></td>
-<td class="source"><code>    pipe_through([:api, :api_auth])</code></td>
+<td class="hits"><pre style="display: inline;">:-(</pre></td>
+<td class="source"><code>    post("/couriers/:id", UserController, :create_courier_user)</code></td>
 </tr>
 <tr>
 <td class="line" id="L37"><a href="#L37">37</a></td>
 <td class="hits"></td>
-<td class="source"><code></code></td>
+<td class="source"><code>  end</code></td>
 </tr>
-<tr class="miss">
+<tr>
 <td class="line" id="L38"><a href="#L38">38</a></td>
-<td class="hits"><pre style="display: inline;">:-(</pre></td>
-<td class="source"><code>    get(</code></td>
+<td class="hits"></td>
+<td class="source"><code></code></td>
 </tr>
 <tr>
 <td class="line" id="L39"><a href="#L39">39</a></td>
 <td class="hits"></td>
-<td class="source"><code>      "/couriers/:courier_id",</code></td>
+<td class="source"><code>  scope "/api/orders", PharmaDashWeb do</code></td>
 </tr>
 <tr>
 <td class="line" id="L40"><a href="#L40">40</a></td>
 <td class="hits"></td>
-<td class="source"><code>      OrderController,</code></td>
+<td class="source"><code>    pipe_through([:api, :api_auth])</code></td>
 </tr>
 <tr>
 <td class="line" id="L41"><a href="#L41">41</a></td>
 <td class="hits"></td>
-<td class="source"><code>      :show_courier_orders</code></td>
+<td class="source"><code></code></td>
 </tr>
-<tr>
+<tr class="miss">
 <td class="line" id="L42"><a href="#L42">42</a></td>
-<td class="hits"></td>
-<td class="source"><code>    )</code></td>
+<td class="hits"><pre style="display: inline;">:-(</pre></td>
+<td class="source"><code>    get("/couriers/:courier_id", OrderController, :show_courier_orders)</code></td>
+</tr>
+<tr class="miss">
+<td class="line" id="L43"><a href="#L43">43</a></td>
+<td class="hits"><pre style="display: inline;">:-(</pre></td>
+<td class="source"><code>    get("/pharmacies/:pharmacy_id", OrderController, :list_pharmacy_orders)</code></td>
 </tr>
 <tr>
-<td class="line" id="L43"><a href="#L43">43</a></td>
+<td class="line" id="L44"><a href="#L44">44</a></td>
 <td class="hits"></td>
 <td class="source"><code></code></td>
 </tr>
 <tr class="hit">
-<td class="line" id="L44"><a href="#L44">44</a></td>
+<td class="line" id="L45"><a href="#L45">45</a></td>
 <td class="hits">2</td>
 <td class="source"><code>    post(</code></td>
 </tr>
 <tr>
-<td class="line" id="L45"><a href="#L45">45</a></td>
+<td class="line" id="L46"><a href="#L46">46</a></td>
 <td class="hits"></td>
 <td class="source"><code>      "/pharmacies/:pharmacy_id/couriers/:courier_id/patients/:patient_id",</code></td>
 </tr>
 <tr>
-<td class="line" id="L46"><a href="#L46">46</a></td>
-<td class="hits"></td>
-<td class="source"><code>      OrderController,</code></td>
-</tr>
-<tr>
 <td class="line" id="L47"><a href="#L47">47</a></td>
 <td class="hits"></td>
-<td class="source"><code>      :create_order</code></td>
+<td class="source"><code>      OrderController,</code></td>
 </tr>
 <tr>
 <td class="line" id="L48"><a href="#L48">48</a></td>
 <td class="hits"></td>
-<td class="source"><code>    )</code></td>
+<td class="source"><code>      :create_order</code></td>
 </tr>
 <tr>
 <td class="line" id="L49"><a href="#L49">49</a></td>
 <td class="hits"></td>
-<td class="source"><code></code></td>
-</tr>
-<tr class="miss">
-<td class="line" id="L50"><a href="#L50">50</a></td>
-<td class="hits"><pre style="display: inline;">:-(</pre></td>
-<td class="source"><code>    get(</code></td>
-</tr>
-<tr>
-<td class="line" id="L51"><a href="#L51">51</a></td>
-<td class="hits"></td>
-<td class="source"><code>      "/pharmacies/:pharmacy_id",</code></td>
-</tr>
-<tr>
-<td class="line" id="L52"><a href="#L52">52</a></td>
-<td class="hits"></td>
-<td class="source"><code>      OrderController,</code></td>
-</tr>
-<tr>
-<td class="line" id="L53"><a href="#L53">53</a></td>
-<td class="hits"></td>
-<td class="source"><code>      :list_pharmacy_orders</code></td>
-</tr>
-<tr>
-<td class="line" id="L54"><a href="#L54">54</a></td>
-<td class="hits"></td>
 <td class="source"><code>    )</code></td>
 </tr>
 <tr>
-<td class="line" id="L55"><a href="#L55">55</a></td>
+<td class="line" id="L50"><a href="#L50">50</a></td>
 <td class="hits"></td>
 <td class="source"><code></code></td>
 </tr>
 <tr class="hit">
-<td class="line" id="L56"><a href="#L56">56</a></td>
+<td class="line" id="L51"><a href="#L51">51</a></td>
 <td class="hits">1</td>
 <td class="source"><code>    patch("/:order_id/cancel", OrderController, :cancel_order)</code></td>
 </tr>
 <tr class="hit">
-<td class="line" id="L57"><a href="#L57">57</a></td>
+<td class="line" id="L52"><a href="#L52">52</a></td>
 <td class="hits">1</td>
 <td class="source"><code>    patch("/:order_id/uncancel", OrderController, :uncancel_order)</code></td>
 </tr>
 <tr class="hit">
-<td class="line" id="L58"><a href="#L58">58</a></td>
+<td class="line" id="L53"><a href="#L53">53</a></td>
 <td class="hits">1</td>
 <td class="source"><code>    patch("/:order_id/delivered", OrderController, :set_order_delivered)</code></td>
 </tr>
 <tr class="hit">
-<td class="line" id="L59"><a href="#L59">59</a></td>
+<td class="line" id="L54"><a href="#L54">54</a></td>
 <td class="hits">1</td>
 <td class="source"><code>    patch("/:order_id/undelivered", OrderController, :set_order_not_delivered)</code></td>
 </tr>
 <tr class="hit">
-<td class="line" id="L60"><a href="#L60">60</a></td>
+<td class="line" id="L55"><a href="#L55">55</a></td>
 <td class="hits">1</td>
 <td class="source"><code>    patch("/:order_id/deliverable", OrderController, :set_order_is_deliverable)</code></td>
 </tr>
 <tr class="hit">
-<td class="line" id="L61"><a href="#L61">61</a></td>
+<td class="line" id="L56"><a href="#L56">56</a></td>
 <td class="hits">1</td>
 <td class="source"><code>    patch("/:order_id/undeliverable", OrderController, :set_order_is_not_deliverable)</code></td>
 </tr>
 <tr>
-<td class="line" id="L62"><a href="#L62">62</a></td>
+<td class="line" id="L57"><a href="#L57">57</a></td>
 <td class="hits"></td>
 <td class="source"><code>  end</code></td>
 </tr>
 <tr>
-<td class="line" id="L63"><a href="#L63">63</a></td>
+<td class="line" id="L58"><a href="#L58">58</a></td>
 <td class="hits"></td>
 <td class="source"><code></code></td>
 </tr>
 <tr>
-<td class="line" id="L64"><a href="#L64">64</a></td>
+<td class="line" id="L59"><a href="#L59">59</a></td>
 <td class="hits"></td>
 <td class="source"><code>  scope "/api/couriers", PharmaDashWeb do</code></td>
 </tr>
 <tr>
-<td class="line" id="L65"><a href="#L65">65</a></td>
+<td class="line" id="L60"><a href="#L60">60</a></td>
 <td class="hits"></td>
 <td class="source"><code>    pipe_through([:api, :api_auth])</code></td>
 </tr>
 <tr class="miss">
-<td class="line" id="L66"><a href="#L66">66</a></td>
+<td class="line" id="L61"><a href="#L61">61</a></td>
 <td class="hits"><pre style="display: inline;">:-(</pre></td>
 <td class="source"><code>    post("/pharmacies/:pharmacy_id", CourierController, :create_courier)</code></td>
 </tr>
 <tr class="miss">
-<td class="line" id="L67"><a href="#L67">67</a></td>
+<td class="line" id="L62"><a href="#L62">62</a></td>
 <td class="hits"><pre style="display: inline;">:-(</pre></td>
 <td class="source"><code>    get("/pharmacies/:pharmacy_id", CourierController, :get_couriers)</code></td>
 </tr>
 <tr>
-<td class="line" id="L68"><a href="#L68">68</a></td>
+<td class="line" id="L63"><a href="#L63">63</a></td>
 <td class="hits"></td>
 <td class="source"><code>  end</code></td>
 </tr>
 <tr>
-<td class="line" id="L69"><a href="#L69">69</a></td>
+<td class="line" id="L64"><a href="#L64">64</a></td>
 <td class="hits"></td>
 <td class="source"><code></code></td>
 </tr>
 <tr>
-<td class="line" id="L70"><a href="#L70">70</a></td>
+<td class="line" id="L65"><a href="#L65">65</a></td>
 <td class="hits"></td>
 <td class="source"><code>  scope "/api/patients", PharmaDashWeb do</code></td>
 </tr>
 <tr>
+<td class="line" id="L66"><a href="#L66">66</a></td>
+<td class="hits"></td>
+<td class="source"><code>    pipe_through([:api, :api_auth])</code></td>
+</tr>
+<tr>
+<td class="line" id="L67"><a href="#L67">67</a></td>
+<td class="hits"></td>
+<td class="source"><code></code></td>
+</tr>
+<tr class="miss">
+<td class="line" id="L68"><a href="#L68">68</a></td>
+<td class="hits"><pre style="display: inline;">:-(</pre></td>
+<td class="source"><code>    post(</code></td>
+</tr>
+<tr>
+<td class="line" id="L69"><a href="#L69">69</a></td>
+<td class="hits"></td>
+<td class="source"><code>      "/pharmacies/:pharmacy_id",</code></td>
+</tr>
+<tr>
+<td class="line" id="L70"><a href="#L70">70</a></td>
+<td class="hits"></td>
+<td class="source"><code>      PatientController,</code></td>
+</tr>
+<tr>
 <td class="line" id="L71"><a href="#L71">71</a></td>
 <td class="hits"></td>
-<td class="source"><code>    # TODO: Only pharmacy users should have access to their /pharmacies/ endpoints. Create plug verify_pharmacy, add to new pipeline</code></td>
+<td class="source"><code>      :create_patient_with_pharmacy</code></td>
 </tr>
 <tr>
 <td class="line" id="L72"><a href="#L72">72</a></td>
 <td class="hits"></td>
-<td class="source"><code>    pipe_through([:api, :api_auth])</code></td>
+<td class="source"><code>    )</code></td>
 </tr>
 <tr>
 <td class="line" id="L73"><a href="#L73">73</a></td>
@@ -474,7 +474,7 @@ td.source {
 <tr class="miss">
 <td class="line" id="L74"><a href="#L74">74</a></td>
 <td class="hits"><pre style="display: inline;">:-(</pre></td>
-<td class="source"><code>    post(</code></td>
+<td class="source"><code>    get(</code></td>
 </tr>
 <tr>
 <td class="line" id="L75"><a href="#L75">75</a></td>
@@ -489,7 +489,7 @@ td.source {
 <tr>
 <td class="line" id="L77"><a href="#L77">77</a></td>
 <td class="hits"></td>
-<td class="source"><code>      :create_patient_with_pharmacy</code></td>
+<td class="source"><code>      :list_pharmacy_patients</code></td>
 </tr>
 <tr>
 <td class="line" id="L78"><a href="#L78">78</a></td>
@@ -499,105 +499,75 @@ td.source {
 <tr>
 <td class="line" id="L79"><a href="#L79">79</a></td>
 <td class="hits"></td>
-<td class="source"><code></code></td>
+<td class="source"><code>  end</code></td>
 </tr>
-<tr class="miss">
+<tr>
 <td class="line" id="L80"><a href="#L80">80</a></td>
-<td class="hits"><pre style="display: inline;">:-(</pre></td>
-<td class="source"><code>    get(</code></td>
+<td class="hits"></td>
+<td class="source"><code></code></td>
 </tr>
 <tr>
 <td class="line" id="L81"><a href="#L81">81</a></td>
 <td class="hits"></td>
-<td class="source"><code>      "/pharmacies/:pharmacy_id",</code></td>
+<td class="source"><code>  defp ensure_authenticated(conn, _opts) do</code></td>
 </tr>
-<tr>
+<tr class="hit">
 <td class="line" id="L82"><a href="#L82">82</a></td>
-<td class="hits"></td>
-<td class="source"><code>      PatientController,</code></td>
+<td class="hits">19</td>
+<td class="source"><code>    current_user_id = get_session(conn, :current_user_id)</code></td>
 </tr>
 <tr>
 <td class="line" id="L83"><a href="#L83">83</a></td>
 <td class="hits"></td>
-<td class="source"><code>      :list_pharmacy_patients</code></td>
+<td class="source"><code></code></td>
 </tr>
-<tr>
+<tr class="hit">
 <td class="line" id="L84"><a href="#L84">84</a></td>
-<td class="hits"></td>
-<td class="source"><code>    )</code></td>
+<td class="hits">19</td>
+<td class="source"><code>    if current_user_id do</code></td>
 </tr>
-<tr>
+<tr class="hit">
 <td class="line" id="L85"><a href="#L85">85</a></td>
-<td class="hits"></td>
-<td class="source"><code>  end</code></td>
+<td class="hits">19</td>
+<td class="source"><code>      conn</code></td>
 </tr>
 <tr>
 <td class="line" id="L86"><a href="#L86">86</a></td>
 <td class="hits"></td>
-<td class="source"><code></code></td>
+<td class="source"><code>    else</code></td>
 </tr>
 <tr>
 <td class="line" id="L87"><a href="#L87">87</a></td>
 <td class="hits"></td>
-<td class="source"><code>  defp ensure_authenticated(conn, _opts) do</code></td>
+<td class="source"><code>      conn</code></td>
 </tr>
-<tr class="hit">
+<tr>
 <td class="line" id="L88"><a href="#L88">88</a></td>
-<td class="hits">38</td>
-<td class="source"><code>    current_user_id = get_session(conn, :current_user_id)</code></td>
-</tr>
-<tr>
-<td class="line" id="L89"><a href="#L89">89</a></td>
-<td class="hits"></td>
-<td class="source"><code></code></td>
-</tr>
-<tr class="hit">
-<td class="line" id="L90"><a href="#L90">90</a></td>
-<td class="hits">38</td>
-<td class="source"><code>    if current_user_id do</code></td>
-</tr>
-<tr class="hit">
-<td class="line" id="L91"><a href="#L91">91</a></td>
-<td class="hits">38</td>
-<td class="source"><code>      conn</code></td>
-</tr>
-<tr>
-<td class="line" id="L92"><a href="#L92">92</a></td>
-<td class="hits"></td>
-<td class="source"><code>    else</code></td>
-</tr>
-<tr>
-<td class="line" id="L93"><a href="#L93">93</a></td>
-<td class="hits"></td>
-<td class="source"><code>      conn</code></td>
-</tr>
-<tr>
-<td class="line" id="L94"><a href="#L94">94</a></td>
 <td class="hits"></td>
 <td class="source"><code>      |&gt; put_status(:unauthorized)</code></td>
 </tr>
 <tr>
-<td class="line" id="L95"><a href="#L95">95</a></td>
+<td class="line" id="L89"><a href="#L89">89</a></td>
 <td class="hits"></td>
 <td class="source"><code>      |&gt; render(PharmaDashWeb.ErrorView, "401.json", message: "Unauthenticated user")</code></td>
 </tr>
 <tr class="miss">
-<td class="line" id="L96"><a href="#L96">96</a></td>
+<td class="line" id="L90"><a href="#L90">90</a></td>
 <td class="hits"><pre style="display: inline;">:-(</pre></td>
 <td class="source"><code>      |&gt; halt()</code></td>
 </tr>
 <tr>
-<td class="line" id="L97"><a href="#L97">97</a></td>
+<td class="line" id="L91"><a href="#L91">91</a></td>
 <td class="hits"></td>
 <td class="source"><code>    end</code></td>
 </tr>
 <tr>
-<td class="line" id="L98"><a href="#L98">98</a></td>
+<td class="line" id="L92"><a href="#L92">92</a></td>
 <td class="hits"></td>
 <td class="source"><code>  end</code></td>
 </tr>
 <tr>
-<td class="line" id="L99"><a href="#L99">99</a></td>
+<td class="line" id="L93"><a href="#L93">93</a></td>
 <td class="hits"></td>
 <td class="source"><code>end</code></td>
 </tr>

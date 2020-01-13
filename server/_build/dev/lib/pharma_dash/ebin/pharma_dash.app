@@ -30,6 +30,7 @@
                         'Elixir.PharmaDashWeb.PatientView',
                         'Elixir.PharmaDashWeb.PharmacyController',
                         'Elixir.PharmaDashWeb.PharmacyView',
+                        'Elixir.PharmaDashWeb.Plugs.SetUser',
                         'Elixir.PharmaDashWeb.Router',
                         'Elixir.PharmaDashWeb.Router.Helpers',
                         'Elixir.PharmaDashWeb.UserController',
