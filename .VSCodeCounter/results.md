@@ -1,26 +1,32 @@
 # Summary
 
-Date : 2020-01-13 02:03:41
+Date : 2020-01-13 14:20:49
 
-Directory /Users/juribe/Desktop/dev/elixirDir/PharmaDash/server/test
+Directory /Users/juribe/Desktop/dev/elixirDir/PharmaDash/server/lib
 
-Total : 16 files,  1134 codes, 30 comments, 250 blanks, all 1414 lines
+Total : 33 files,  1320 codes, 117 comments, 391 blanks, all 1828 lines
 
 [details](details.md)
 
 ## Languages
 | language | files | code | comment | blank | total |
 | :--- | ---: | ---: | ---: | ---: | ---: |
-| Elixir | 16 | 1,134 | 30 | 250 | 1,414 |
+| Elixir | 33 | 1,320 | 117 | 391 | 1,828 |
 
 ## Directories
 | path | files | code | comment | blank | total |
 | :--- | ---: | ---: | ---: | ---: | ---: |
-| . | 16 | 1,134 | 30 | 250 | 1,414 |
-| pharma_dash | 5 | 324 | 0 | 71 | 395 |
-| pharma_dash_web | 6 | 711 | 4 | 142 | 857 |
-| pharma_dash_web/controllers | 5 | 700 | 3 | 138 | 841 |
-| pharma_dash_web/views | 1 | 11 | 1 | 4 | 16 |
-| support | 4 | 97 | 26 | 36 | 159 |
+| . | 33 | 1,320 | 117 | 391 | 1,828 |
+| pharma_dash | 12 | 528 | 47 | 192 | 767 |
+| pharma_dash/auth | 1 | 43 | 0 | 6 | 49 |
+| pharma_dash/deliveries | 1 | 21 | 1 | 4 | 26 |
+| pharma_dash/entities | 1 | 25 | 0 | 4 | 29 |
+| pharma_dash/items | 1 | 42 | 2 | 4 | 48 |
+| pharma_dash/people | 1 | 23 | 3 | 4 | 30 |
+| pharma_dash_web | 19 | 731 | 69 | 184 | 984 |
+| pharma_dash_web/channels | 1 | 7 | 23 | 4 | 34 |
+| pharma_dash_web/controllers | 6 | 411 | 0 | 104 | 515 |
+| pharma_dash_web/plugs | 1 | 17 | 0 | 6 | 23 |
+| pharma_dash_web/views | 8 | 170 | 31 | 35 | 236 |
 
 [details](details.md)
