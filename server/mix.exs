@@ -44,11 +44,7 @@ defmodule PharmaDash.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:bcrypt_elixir, "~> 1.0"},
       {:corsica, "~> 1.0"},
-      {:timex, "~> 3.6"},
-      {"set-value": ">=2.0.1"},
-      {"js-yaml": ">=3.13.1"},
-      {"diff": ">=3.5.0"},
-      {"mixin-deep": ">=1.3.2"},
+      {:timex, "~> 3.6"}
     ]
   end
 
